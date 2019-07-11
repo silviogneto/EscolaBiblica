@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.705
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscolaBiblica.API", "..\EscolaBiblica.API\EscolaBiblica.API.csproj", "{D2848CCA-7230-4B83-847F-DFDB93D9516B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscolaBiblica.API", "EscolaBiblica.API\EscolaBiblica.API.csproj", "{D2848CCA-7230-4B83-847F-DFDB93D9516B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscolaBiblica.Droid", "EscolaBiblica.Droid\EscolaBiblica.Droid.csproj", "{07A1ABC1-30CE-4822-8A67-03EA1DD8E6E2}"
 EndProject
