@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using EscolaBiblica.API.DTO;
+using EscolaBiblica.API.Helpers;
 using EscolaBiblica.API.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +27,7 @@ namespace EscolaBiblica.API.Controllers
         [HttpPost]
         public IActionResult Authenticate([FromBody] UsuarioDTO dto)
         {
-            var usuario = new { Id = 0, Perfil = "" };
+            var usuario = MockUsuarios(dto);
             if (usuario == null)
                 return Unauthorized();
 
@@ -49,6 +52,19 @@ namespace EscolaBiblica.API.Controllers
                 Token = tokenHandler.WriteToken(token),
                 Perfil = usuario.Perfil
             });
+        }
+
+        private UsuarioDTO MockUsuarios(UsuarioDTO dto)
+        {
+            var usuarios = new List<UsuarioDTO>
+            {
+                new UsuarioDTO { Id = 1, Login = "silviogneto", Senha = "senha", Perfil = Perfil.Admin },
+                new UsuarioDTO { Id = 2, Login = "outrousuario", Senha = "senha", Perfil = Perfil.Professor },
+                new UsuarioDTO { Id = 3, Login = "teste", Senha = "senha", Perfil = Perfil.Professor },
+                new UsuarioDTO { Id = 4, Login = "admin", Senha = "admin", Perfil = Perfil.Admin }
+            };
+
+            return usuarios.FirstOrDefault(x => x.Login == dto.Login && x.Senha == dto.Senha);
         }
     }
 }

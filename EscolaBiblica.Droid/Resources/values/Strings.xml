@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">EscolaBiblica.Droid</string>
-    <string name="action_settings">Settings</string>
+  <string name="app_name">Escola Bíblica</string>
+  
+  <!-- Tela login -->
+  <string name="cpf">CPF</string>
+  <string name="senha">Senha</string>
+  <string name="login">Login</string>
+  
+  <!-- Bottom menu -->
+  <string name="chamadas">Chamadas</string>
 </resources>
