@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscolaBiblica.iOS", "Escola
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{92C31A76-3E77-4000-A700-BF45FCF83A0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MigrationTool", "MigrationTool\MigrationTool.csproj", "{80926978-A10B-410C-ADC0-DD25020458D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MigrationTool", "MigrationTool\MigrationTool.csproj", "{80926978-A10B-410C-ADC0-DD25020458D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscolaBiblica.App.Biblioteca", "EscolaBiblica.App.Biblioteca\EscolaBiblica.App.Biblioteca.csproj", "{04C45C54-444F-4075-99F5-AF3AC9FA9746}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscolaBiblica.App.Biblioteca", "EscolaBiblica.App.Biblioteca\EscolaBiblica.App.Biblioteca.csproj", "{04C45C54-444F-4075-99F5-AF3AC9FA9746}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

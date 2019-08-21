@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using EscolaBiblica.App.Biblioteca.Repositorios;
 
 namespace EscolaBiblica.Droid.Activities
 {
@@ -31,12 +32,22 @@ namespace EscolaBiblica.Droid.Activities
             _textCpf = FindViewById<EditText>(Resource.Id.TextCpf);
             _textSenha = FindViewById<EditText>(Resource.Id.TextSenha);
             _btnLogin = FindViewById<Button>(Resource.Id.BtnLogin);
-            _btnLogin.Click += (sender, e) =>
+            _btnLogin.Click += async (sender, e) =>
             {
                 EnableCampos(false);
 
-                StartActivity(new Intent(this, typeof(MainActivity)));
-                Finish();
+                try
+                {
+                    var result = await new AuthenticationRepositorio().Authenticate(_textCpf.Text, _textSenha.Text);
+
+                    StartActivity(new Intent(this, typeof(MainActivity)));
+                    Finish();
+                }
+                catch (Exception)
+                {
+                    EnableCampos(true);
+                    //throw;
+                }
             };
         }
 

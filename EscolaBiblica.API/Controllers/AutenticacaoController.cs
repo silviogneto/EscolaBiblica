@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using EscolaBiblica.API.Configuracoes;
+using EscolaBiblica.API.DAL;
 using EscolaBiblica.API.DTO;
 using EscolaBiblica.API.Helpers;
-using EscolaBiblica.API.Settings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -14,24 +13,27 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace EscolaBiblica.API.Controllers
 {
-    public class AuthenticationController : BaseController<UsuarioDTO>
+    public class AutenticacaoController : BaseController<UsuarioDTO>
     {
-        private readonly AppSettings _appSettings;
+        private readonly ConfiguracoesApp _configuracoesApp;
 
-        public AuthenticationController(IOptions<AppSettings> options)
+        public AutenticacaoController(
+            IUnidadeTrabalho unidadeTrabalho,
+            IOptions<ConfiguracoesApp> options) : base(unidadeTrabalho)
         {
-            _appSettings = options.Value;
+            _configuracoesApp = options.Value;
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Authenticate([FromBody] UsuarioDTO dto)
+        public IActionResult Autenticar([FromBody] UsuarioDTO dto)
         {
-            var usuario = MockUsuarios(dto);
+            var usuario = UnidadeTrabalho.UsuarioRepositorio.ObterPorLoginSenha(dto.Login, Hash.GerarHash(dto.Senha ?? ""));
             if (usuario == null)
                 return Unauthorized();
 
-            var chave = Encoding.ASCII.GetBytes(_appSettings.ChaveSecreta);
+            var chave = Encoding.ASCII.GetBytes(_configuracoesApp.ChaveSecreta);
+            var expires = DateTime.UtcNow.AddDays(7);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -39,7 +41,7 @@ namespace EscolaBiblica.API.Controllers
                     new Claim(ClaimTypes.Name, usuario.Id.ToString()),
                     new Claim(ClaimTypes.Role, usuario.Perfil)
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = expires,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(chave), SecurityAlgorithms.HmacSha256Signature)
             };
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -50,21 +52,9 @@ namespace EscolaBiblica.API.Controllers
                 Id = usuario.Id,
                 Login = dto.Login,
                 Token = tokenHandler.WriteToken(token),
+                Expires = expires,
                 Perfil = usuario.Perfil
             });
-        }
-
-        private UsuarioDTO MockUsuarios(UsuarioDTO dto)
-        {
-            var usuarios = new List<UsuarioDTO>
-            {
-                new UsuarioDTO { Id = 1, Login = "silviogneto", Senha = "senha", Perfil = Perfil.Admin },
-                new UsuarioDTO { Id = 2, Login = "outrousuario", Senha = "senha", Perfil = Perfil.Professor },
-                new UsuarioDTO { Id = 3, Login = "teste", Senha = "senha", Perfil = Perfil.Professor },
-                new UsuarioDTO { Id = 4, Login = "admin", Senha = "admin", Perfil = Perfil.Admin }
-            };
-
-            return usuarios.FirstOrDefault(x => x.Login == dto.Login && x.Senha == dto.Senha);
         }
     }
 }
