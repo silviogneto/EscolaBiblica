@@ -3,7 +3,7 @@ using EscolaBiblica.API.DAL.Modelos;
 
 namespace EscolaBiblica.API.DAL.Repositorios
 {
-    public interface ICongregacaoRepositorio : IRepositorio<Congregacao, int>
+    public interface ICongregacaoRepositorio : IRepositorio<Congregacao>
     {
         IEnumerable<Congregacao> TodosPorSetor(int setor);
 

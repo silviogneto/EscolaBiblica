@@ -9,8 +9,20 @@ namespace EscolaBiblica.API.DAL
 
         private readonly EscolaBiblicaContext _context;
 
+        private IAlunoRepositorio _alunoRepositorio;
+        public IAlunoRepositorio AlunoRepositorio => _alunoRepositorio ?? (_alunoRepositorio = new AlunoRepositorio(_context));
+
+        private IClasseRepositorio _classeRepositorio;
+        public IClasseRepositorio ClasseRepositorio => _classeRepositorio ?? (_classeRepositorio = new ClasseRepositorio(_context));
+
         private ICongregacaoRepositorio _congregacaoRepositorio;
         public ICongregacaoRepositorio CongregacaoRepositorio => _congregacaoRepositorio ?? (_congregacaoRepositorio = new CongregacaoRepositorio(_context));
+
+        private IMatriculaRepositorio _matriculaRepositorio;
+        public IMatriculaRepositorio MatriculaRepositorio => _matriculaRepositorio ?? (_matriculaRepositorio = new MatriculaRepositorio(_context));
+
+        private IProfessorRepositorio _professorRepositorio;
+        public IProfessorRepositorio ProfessorRepositorio => _professorRepositorio ?? (_professorRepositorio = new ProfessorRepositorio(_context));
 
         private ISetorRepositorio _setorRepositorio;
         public ISetorRepositorio SetorRepositorio => _setorRepositorio ?? (_setorRepositorio = new SetorRepositorio(_context));
@@ -34,6 +46,7 @@ namespace EscolaBiblica.API.DAL
                 try
                 {
                     action(this);
+                    Salvar();
                     transacao.Commit();
                 }
                 catch

@@ -1,4 +1,5 @@
-﻿using EscolaBiblica.API.DAL.Modelos;
+﻿using System.Linq;
+using EscolaBiblica.API.DAL.Modelos;
 using EscolaBiblica.API.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -8,8 +9,11 @@ namespace EscolaBiblica.API.DAL
     public class EscolaBiblicaContext : DbContext
     {
         public virtual DbSet<Aluno> Alunos { get; set; }
+        public virtual DbSet<Classe> Classes { get; set; }
         public virtual DbSet<Congregacao> Congregacoes { get; set; }
         public virtual DbSet<Endereco> Enderecos { get; set; }
+        public virtual DbSet<Matricula> Matriculas { get; set; }
+        public virtual DbSet<Professor> Professores { get; set; }
         public virtual DbSet<Setor> Setores { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
 
@@ -20,8 +24,6 @@ namespace EscolaBiblica.API.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuario>().Property(modelo => modelo.Perfil).HasDefaultValue(Perfil.Professor);
-
             modelBuilder.Entity<Usuario>().HasData(
                 new Usuario { Id = 1, Nome = "Silvio Neto", Login = "silviogneto", Senha = Hash.GerarHash("senha"), Perfil = Perfil.Admin, Ativo = true }
             );
@@ -71,6 +73,15 @@ namespace EscolaBiblica.API.DAL
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 entityType.Relational().TableName = entityType.DisplayName();
+            }
+
+            var foreignKeysMatricula = modelBuilder.Model.GetEntityTypes(typeof(Matricula))?.SelectMany(x => x.GetForeignKeys());
+            if (foreignKeysMatricula != null)
+            {
+                foreach (var foreignKey in foreignKeysMatricula)
+                {
+                    foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+                }
             }
 
             base.OnModelCreating(modelBuilder);

@@ -9,21 +9,6 @@ namespace EscolaBiblica.API.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Aluno",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: false),
-                    DataNascimento = table.Column<DateTime>(type: "date", nullable: false),
-                    Telefone = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Aluno", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Setor",
                 columns: table => new
                 {
@@ -44,12 +29,83 @@ namespace EscolaBiblica.API.Migrations
                     Nome = table.Column<string>(nullable: true),
                     Login = table.Column<string>(nullable: false),
                     Senha = table.Column<string>(nullable: false),
-                    Perfil = table.Column<string>(nullable: false, defaultValue: "PROF"),
-                    Ativo = table.Column<bool>(nullable: false, defaultValue: false)
+                    Perfil = table.Column<string>(nullable: false),
+                    Ativo = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuario", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Congregacao",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(nullable: false),
+                    SetorNumero = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Congregacao", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Congregacao_Setor_SetorNumero",
+                        column: x => x.SetorNumero,
+                        principalTable: "Setor",
+                        principalColumn: "Numero",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Aluno",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(nullable: false),
+                    DataNascimento = table.Column<DateTime>(type: "date", nullable: false),
+                    Telefone = table.Column<string>(nullable: true),
+                    CongregacaoId = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    UsuarioId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Aluno", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Aluno_Congregacao_CongregacaoId",
+                        column: x => x.CongregacaoId,
+                        principalTable: "Congregacao",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Aluno_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Classe",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Nome = table.Column<string>(nullable: false),
+                    Descricao = table.Column<string>(nullable: true),
+                    CongregacaoId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Classe", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Classe_Congregacao_CongregacaoId",
+                        column: x => x.CongregacaoId,
+                        principalTable: "Congregacao",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,23 +136,31 @@ namespace EscolaBiblica.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Congregacao",
+                name: "Matricula",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Nome = table.Column<string>(nullable: false),
-                    SetorNumero = table.Column<int>(nullable: false)
+                    DataMatricula = table.Column<DateTime>(nullable: false),
+                    DataTerminoMatricula = table.Column<DateTime>(nullable: true),
+                    ClasseId = table.Column<int>(nullable: false),
+                    AlunoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Congregacao", x => x.Id);
+                    table.PrimaryKey("PK_Matricula", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Congregacao_Setor_SetorNumero",
-                        column: x => x.SetorNumero,
-                        principalTable: "Setor",
-                        principalColumn: "Numero",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Matricula_Aluno_AlunoId",
+                        column: x => x.AlunoId,
+                        principalTable: "Aluno",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Matricula_Classe_ClasseId",
+                        column: x => x.ClasseId,
+                        principalTable: "Classe",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -151,6 +215,21 @@ namespace EscolaBiblica.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Aluno_CongregacaoId",
+                table: "Aluno",
+                column: "CongregacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Aluno_UsuarioId",
+                table: "Aluno",
+                column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Classe_CongregacaoId",
+                table: "Classe",
+                column: "CongregacaoId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Congregacao_SetorNumero",
                 table: "Congregacao",
                 column: "SetorNumero");
@@ -159,24 +238,40 @@ namespace EscolaBiblica.API.Migrations
                 name: "IX_Endereco_AlunoId",
                 table: "Endereco",
                 column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matricula_AlunoId",
+                table: "Matricula",
+                column: "AlunoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matricula_ClasseId",
+                table: "Matricula",
+                column: "ClasseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Congregacao");
+                name: "Endereco");
 
             migrationBuilder.DropTable(
-                name: "Endereco");
+                name: "Matricula");
+
+            migrationBuilder.DropTable(
+                name: "Aluno");
+
+            migrationBuilder.DropTable(
+                name: "Classe");
 
             migrationBuilder.DropTable(
                 name: "Usuario");
 
             migrationBuilder.DropTable(
-                name: "Setor");
+                name: "Congregacao");
 
             migrationBuilder.DropTable(
-                name: "Aluno");
+                name: "Setor");
         }
     }
 }

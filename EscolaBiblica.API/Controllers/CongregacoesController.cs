@@ -34,7 +34,7 @@ namespace EscolaBiblica.API.Controllers
                 var novaCongregacao = new Congregacao
                 {
                     Nome = congregacao.Nome,
-                    SetorNumero = congregacao.SetorNumero
+                    SetorNumero = setor
                 };
 
                 unidadeTrabalho.CongregacaoRepositorio.Adicionar(novaCongregacao);
@@ -49,6 +49,9 @@ namespace EscolaBiblica.API.Controllers
             if (congregacaoAlterar == null)
                 return NotFound();
 
+            if (congregacaoAlterar.Nome == congregacao.Nome)
+                return Ok();
+
             return TratarRetornoTransacao(unidadeTrabalho =>
             {
                 congregacaoAlterar.Nome = congregacao.Nome;
@@ -59,7 +62,7 @@ namespace EscolaBiblica.API.Controllers
 
         [Authorize(Roles = Perfil.Admin)]
         [HttpDelete("{id}")]
-        public IActionResult Delete(int setor, int id)
+        public IActionResult Delete(int id)
         {
             return TratarRetornoTransacao(unidadeTrabalho => unidadeTrabalho.CongregacaoRepositorio.Excluir(id));
         }

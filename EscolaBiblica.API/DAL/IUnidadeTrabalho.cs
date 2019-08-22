@@ -5,7 +5,11 @@ namespace EscolaBiblica.API.DAL
 {
     public interface IUnidadeTrabalho
     {
+        IAlunoRepositorio AlunoRepositorio { get; }
+        IClasseRepositorio ClasseRepositorio { get; }
         ICongregacaoRepositorio CongregacaoRepositorio { get; }
+        IMatriculaRepositorio MatriculaRepositorio { get; }
+        IProfessorRepositorio ProfessorRepositorio { get; }
         ISetorRepositorio SetorRepositorio { get; }
         IUsuarioRepositorio UsuarioRepositorio { get; }
 

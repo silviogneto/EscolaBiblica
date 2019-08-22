@@ -14,6 +14,9 @@ namespace EscolaBiblica.API.DAL.Modelos
         public DateTime DataNascimento { get; set; }
         public string Telefone { get; set; }
 
+        public int CongregacaoId { get; set; }
+        public virtual Congregacao Congregacao { get; set; }
+
         public IEnumerable<Endereco> Enderecos { get; set; }
     }
 }

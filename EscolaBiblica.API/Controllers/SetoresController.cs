@@ -44,9 +44,12 @@ namespace EscolaBiblica.API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Setor setor)
         {
-            var setorAlterar = UnidadeTrabalho.SetorRepositorio.ObterPorId(setor.Numero);
+            var setorAlterar = UnidadeTrabalho.SetorRepositorio.ObterPorId(id);
             if (setorAlterar == null)
                 return NotFound();
+
+            if (setorAlterar.Nome == setor.Nome)
+                return Ok();
 
             return TratarRetornoTransacao(unidadeTrabalho =>
             {

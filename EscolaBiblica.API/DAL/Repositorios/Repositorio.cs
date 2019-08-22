@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using EscolaBiblica.API.DAL.Modelos;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,11 +18,31 @@ namespace EscolaBiblica.API.DAL.Repositorios
 
         public virtual IEnumerable<TModelo> Todos() => DbSet;
 
+        public virtual IEnumerable<TModelo> Todos(Expression<Func<TModelo, bool>> where = null, Func<IQueryable<TModelo>, IOrderedQueryable<TModelo>> orderBy = null, Expression<Func<TModelo, object>> include = null)
+        {
+            var dbSet = DbSet.AsQueryable();
+
+            if (include != null)
+                dbSet = dbSet.Include(include);
+
+            if (where != null)
+                dbSet = dbSet.Where(where);
+
+            if (orderBy != null)
+                dbSet = orderBy(dbSet);
+
+            return dbSet;
+        }
+
         public abstract TModelo ObterPorId(TPK id);
 
         public virtual void Adicionar(TModelo entidade) => DbSet.Add(entidade);
 
+        public virtual void Adicionar(IEnumerable<TModelo> entidades) => DbSet.AddRange(entidades);
+
         public virtual void Alterar(TModelo entidade) => DbSet.Update(entidade);
+
+        public virtual void Alterar(IEnumerable<TModelo> entidades) => DbSet.UpdateRange(entidades);
 
         public virtual void Excluir(TModelo entidade) => DbSet.Remove(entidade);
 
