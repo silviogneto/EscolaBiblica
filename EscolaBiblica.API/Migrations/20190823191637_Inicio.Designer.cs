@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EscolaBiblica.API.Migrations
 {
     [DbContext(typeof(EscolaBiblicaContext))]
-    [Migration("20190822055255_Inicio")]
+    [Migration("20190823191637_Inicio")]
     partial class Inicio
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,35 @@ namespace EscolaBiblica.API.Migrations
                     b.ToTable("Aluno");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Aluno");
+                });
+
+            modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Chamada", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Biblias");
+
+                    b.Property<int>("ClasseId");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("date");
+
+                    b.Property<decimal>("Oferta");
+
+                    b.Property<int>("Revistas");
+
+                    b.Property<int>("Visitantes");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClasseId");
+
+                    b.HasIndex("Data", "ClasseId")
+                        .IsUnique();
+
+                    b.ToTable("Chamada");
                 });
 
             modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Classe", b =>
@@ -171,9 +200,11 @@ namespace EscolaBiblica.API.Migrations
 
                     b.Property<int>("ClasseId");
 
-                    b.Property<DateTime>("DataMatricula");
+                    b.Property<DateTime>("DataMatricula")
+                        .HasColumnType("date");
 
-                    b.Property<DateTime?>("DataTerminoMatricula");
+                    b.Property<DateTime?>("DataTerminoMatricula")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
@@ -182,6 +213,26 @@ namespace EscolaBiblica.API.Migrations
                     b.HasIndex("ClasseId");
 
                     b.ToTable("Matricula");
+                });
+
+            modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Presenca", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ChamadaId");
+
+                    b.Property<int>("IdAluno");
+
+                    b.Property<string>("NomeAluno")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChamadaId");
+
+                    b.ToTable("Presenca");
                 });
 
             modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Setor", b =>
@@ -384,6 +435,14 @@ namespace EscolaBiblica.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Chamada", b =>
+                {
+                    b.HasOne("EscolaBiblica.API.DAL.Modelos.Classe", "Classe")
+                        .WithMany()
+                        .HasForeignKey("ClasseId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Classe", b =>
                 {
                     b.HasOne("EscolaBiblica.API.DAL.Modelos.Congregacao", "Congregacao")
@@ -419,6 +478,14 @@ namespace EscolaBiblica.API.Migrations
                         .WithMany()
                         .HasForeignKey("ClasseId")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Presenca", b =>
+                {
+                    b.HasOne("EscolaBiblica.API.DAL.Modelos.Chamada", "Chamada")
+                        .WithMany("Presencas")
+                        .HasForeignKey("ChamadaId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Professor", b =>

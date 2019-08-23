@@ -9,5 +9,7 @@ namespace EscolaBiblica.API.DAL.Modelos
 
         public int SetorNumero { get; set; }
         public virtual Setor Setor { get; set; }
+
+        public override string ToString() => Nome;
     }
 }

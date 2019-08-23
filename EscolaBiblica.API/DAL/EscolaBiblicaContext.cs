@@ -9,10 +9,12 @@ namespace EscolaBiblica.API.DAL
     public class EscolaBiblicaContext : DbContext
     {
         public virtual DbSet<Aluno> Alunos { get; set; }
+        public virtual DbSet<Chamada> Chamadas { get; set; }
         public virtual DbSet<Classe> Classes { get; set; }
         public virtual DbSet<Congregacao> Congregacoes { get; set; }
         public virtual DbSet<Endereco> Enderecos { get; set; }
         public virtual DbSet<Matricula> Matriculas { get; set; }
+        public virtual DbSet<Presenca> Presencas { get; set; }
         public virtual DbSet<Professor> Professores { get; set; }
         public virtual DbSet<Setor> Setores { get; set; }
         public virtual DbSet<Usuario> Usuarios { get; set; }
@@ -24,6 +26,8 @@ namespace EscolaBiblica.API.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Chamada>().HasIndex(x => new { x.Data, x.ClasseId }).IsUnique();
+
             modelBuilder.Entity<Usuario>().HasData(
                 new Usuario { Id = 1, Nome = "Silvio Neto", Login = "silviogneto", Senha = Hash.GerarHash("senha"), Perfil = Perfil.Admin, Ativo = true }
             );

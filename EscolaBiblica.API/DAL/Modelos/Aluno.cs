@@ -18,5 +18,7 @@ namespace EscolaBiblica.API.DAL.Modelos
         public virtual Congregacao Congregacao { get; set; }
 
         public IEnumerable<Endereco> Enderecos { get; set; }
+
+        public override string ToString() => Nome;
     }
 }

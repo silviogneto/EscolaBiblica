@@ -12,5 +12,7 @@ namespace EscolaBiblica.API.DAL.Modelos
         [Required]
         public string Perfil { get; set; }
         public bool Ativo { get; set; }
+
+        public override string ToString() => $"{Id} - {Nome}";
     }
 }

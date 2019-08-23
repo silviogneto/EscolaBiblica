@@ -1,4 +1,6 @@
-﻿using EscolaBiblica.API.DAL;
+﻿using System;
+using System.Linq;
+using EscolaBiblica.API.DAL;
 using EscolaBiblica.API.DAL.Modelos;
 using EscolaBiblica.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -81,6 +83,31 @@ namespace EscolaBiblica.API.Controllers
         public IActionResult Delete(int id)
         {
             return TratarRetornoTransacao(unidadeTrabalho => unidadeTrabalho.AlunoRepositorio.Excluir(id));
+        }
+
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [HttpPost("{id}/Classes/{classeId}")]
+        public IActionResult MatricuarAluno(int id, int classeId)
+        {
+            var dateNow = DateTime.Now;
+            return TratarRetornoTransacao(unidadeTrabalho =>
+            {
+                var matriculasAbertas = unidadeTrabalho.MatriculaRepositorio.Todos(x => x.ClasseId != classeId && x.DataTerminoMatricula == null && x.AlunoId == id);
+                if (matriculasAbertas.Any())
+                {
+                    foreach (var matricula in matriculasAbertas)
+                        matricula.DataTerminoMatricula = dateNow;
+
+                    unidadeTrabalho.MatriculaRepositorio.Alterar(matriculasAbertas);
+                }
+
+                unidadeTrabalho.MatriculaRepositorio.Adicionar(new Matricula
+                {
+                    ClasseId = classeId,
+                    AlunoId = id,
+                    DataMatricula = dateNow
+                });
+            });
         }
     }
 }

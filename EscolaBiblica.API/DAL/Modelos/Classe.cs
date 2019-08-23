@@ -11,5 +11,7 @@ namespace EscolaBiblica.API.DAL.Modelos
         [Required]
         public int CongregacaoId { get; set; }
         public virtual Congregacao Congregacao { get; set; }
+
+        public override string ToString() => Nome;
     }
 }

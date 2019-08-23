@@ -12,6 +12,9 @@ namespace EscolaBiblica.API.DAL
         private IAlunoRepositorio _alunoRepositorio;
         public IAlunoRepositorio AlunoRepositorio => _alunoRepositorio ?? (_alunoRepositorio = new AlunoRepositorio(_context));
 
+        private IChamadaRepositorio _chamadaRepositorio;
+        public IChamadaRepositorio ChamadaRepositorio => _chamadaRepositorio ?? (_chamadaRepositorio = new ChamadaRepositorio(_context));
+
         private IClasseRepositorio _classeRepositorio;
         public IClasseRepositorio ClasseRepositorio => _classeRepositorio ?? (_classeRepositorio = new ClasseRepositorio(_context));
 

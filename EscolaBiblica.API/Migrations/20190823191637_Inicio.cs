@@ -136,13 +136,37 @@ namespace EscolaBiblica.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Chamada",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Data = table.Column<DateTime>(type: "date", nullable: false),
+                    Visitantes = table.Column<int>(nullable: false),
+                    Biblias = table.Column<int>(nullable: false),
+                    Revistas = table.Column<int>(nullable: false),
+                    Oferta = table.Column<decimal>(nullable: false),
+                    ClasseId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Chamada", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Chamada_Classe_ClasseId",
+                        column: x => x.ClasseId,
+                        principalTable: "Classe",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Matricula",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DataMatricula = table.Column<DateTime>(nullable: false),
-                    DataTerminoMatricula = table.Column<DateTime>(nullable: true),
+                    DataMatricula = table.Column<DateTime>(type: "date", nullable: false),
+                    DataTerminoMatricula = table.Column<DateTime>(type: "date", nullable: true),
                     ClasseId = table.Column<int>(nullable: false),
                     AlunoId = table.Column<int>(nullable: false)
                 },
@@ -161,6 +185,27 @@ namespace EscolaBiblica.API.Migrations
                         principalTable: "Classe",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Presenca",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    IdAluno = table.Column<int>(nullable: false),
+                    NomeAluno = table.Column<string>(nullable: false),
+                    ChamadaId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Presenca", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Presenca_Chamada_ChamadaId",
+                        column: x => x.ChamadaId,
+                        principalTable: "Chamada",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -225,6 +270,17 @@ namespace EscolaBiblica.API.Migrations
                 column: "UsuarioId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Chamada_ClasseId",
+                table: "Chamada",
+                column: "ClasseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chamada_Data_ClasseId",
+                table: "Chamada",
+                columns: new[] { "Data", "ClasseId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Classe_CongregacaoId",
                 table: "Classe",
                 column: "CongregacaoId");
@@ -248,6 +304,11 @@ namespace EscolaBiblica.API.Migrations
                 name: "IX_Matricula_ClasseId",
                 table: "Matricula",
                 column: "ClasseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Presenca_ChamadaId",
+                table: "Presenca",
+                column: "ChamadaId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -259,13 +320,19 @@ namespace EscolaBiblica.API.Migrations
                 name: "Matricula");
 
             migrationBuilder.DropTable(
+                name: "Presenca");
+
+            migrationBuilder.DropTable(
                 name: "Aluno");
 
             migrationBuilder.DropTable(
-                name: "Classe");
+                name: "Chamada");
 
             migrationBuilder.DropTable(
                 name: "Usuario");
+
+            migrationBuilder.DropTable(
+                name: "Classe");
 
             migrationBuilder.DropTable(
                 name: "Congregacao");
