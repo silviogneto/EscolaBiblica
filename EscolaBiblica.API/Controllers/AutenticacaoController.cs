@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -46,15 +47,40 @@ namespace EscolaBiblica.API.Controllers
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return Ok(new UsuarioDTO
+            var resultado = new AutenticacaoDTO
             {
                 Id = usuario.Id,
                 Login = dto.Login,
                 Token = tokenHandler.WriteToken(token),
                 Expires = expires,
                 Perfil = usuario.Perfil
-            });
+            };
+
+            if (usuario.Perfil == Perfil.Professor)
+            {
+                var professor = UnidadeTrabalho.ProfessorRepositorio.ObterPorUsuario(usuario.Id);
+                if (professor != null)
+                {
+                    resultado.Setores = new List<SetorDTO>
+                    {
+                        new SetorDTO
+                        {
+                            Numero = professor.Congregacao.Setor.Numero,
+                            Nome = professor.Congregacao.Setor.Nome,
+                            Congregacoes = new List<CongregacaoDTO>
+                            {
+                                new CongregacaoDTO
+                                {
+                                    Id = professor.Congregacao.Id,
+                                    Nome = professor.Congregacao.Nome
+                                }
+                            }
+                        }
+                    };
+                }
+            }
+
+            return Ok(resultado);
         }
     }
 }

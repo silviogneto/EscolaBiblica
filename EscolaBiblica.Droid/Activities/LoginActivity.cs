@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Net;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
+using EscolaBiblica.App.Biblioteca.DTO;
 using EscolaBiblica.App.Biblioteca.Repositorios;
 
 namespace EscolaBiblica.Droid.Activities
 {
     [Activity(
         NoHistory = true,
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+        WindowSoftInputMode = SoftInput.StateHidden | SoftInput.AdjustResize)]
     public class LoginActivity : BaseActivity
     {
-        private EditText _textCpf;
+        private EditText _textUsuario;
         private EditText _textSenha;
         private Button _btnLogin;
 
@@ -29,7 +27,7 @@ namespace EscolaBiblica.Droid.Activities
         {
             base.OnCreate(savedInstanceState);
 
-            _textCpf = FindViewById<EditText>(Resource.Id.TextCpf);
+            _textUsuario = FindViewById<EditText>(Resource.Id.TextUsuario);
             _textSenha = FindViewById<EditText>(Resource.Id.TextSenha);
             _btnLogin = FindViewById<Button>(Resource.Id.BtnLogin);
             _btnLogin.Click += async (sender, e) =>
@@ -38,22 +36,43 @@ namespace EscolaBiblica.Droid.Activities
 
                 try
                 {
-                    var result = await new AuthenticationRepositorio().Authenticate(_textCpf.Text, _textSenha.Text);
+                    var result = await new AutenticacaoRepositorio().Autenticar(_textUsuario.Text, _textSenha.Text);
+                    GravarDadosUsuario(result);
 
                     StartActivity(new Intent(this, typeof(MainActivity)));
                     Finish();
                 }
-                catch (Exception)
+                catch (WebException ex) when (ex.Status == WebExceptionStatus.ProtocolError)
                 {
                     EnableCampos(true);
-                    //throw;
+
+                    if (ex.Response is HttpWebResponse response &&
+                        response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        Snackbar.Make(FindViewById<LinearLayout>(Resource.Id.ContentLayout), Resource.String.erroNaoAutorizado, Snackbar.LengthIndefinite)
+                                .SetAction(Resource.String.ok, v => { })
+                                .Show();
+                    }
+                }
+                catch
+                {
+                    EnableCampos(true);
+
+                    Snackbar.Make(FindViewById<LinearLayout>(Resource.Id.ContentLayout), Resource.String.erroRequisicao, Snackbar.LengthIndefinite)
+                            .SetAction(Resource.String.ok, v => { })
+                            .Show();
                 }
             };
         }
 
+        private void GravarDadosUsuario(UsuarioDTO usuarioDto)
+        {
+            App.Instancia.Login(usuarioDto.Id, usuarioDto.Token, usuarioDto.Expires, usuarioDto.Perfil, usuarioDto.Setores);
+        }
+
         private void EnableCampos(bool enabled)
         {
-            _textCpf.Enabled = enabled;
+            _textUsuario.Enabled = enabled;
             _textSenha.Enabled = enabled;
             _btnLogin.Enabled = enabled;
         }

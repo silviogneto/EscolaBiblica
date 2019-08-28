@@ -22,4 +22,88 @@
   <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
   </style>
 
+  <style name="Bold">
+    <item name="android:textStyle">bold</item>
+  </style>
+
+  <style name="Texto1">
+    <item name="android:textSize">26dp</item>
+  </style>
+  <style name="TextoBold1" parent="Bold">
+    <item name="android:textSize">26dp</item>
+  </style>
+
+  <style name="Texto2">
+    <item name="android:textSize">24dp</item>
+  </style>
+  <style name="TextoBold2" parent="Bold">
+    <item name="android:textSize">24dp</item>
+  </style>
+
+  <style name="Texto3">
+    <item name="android:textSize">22dp</item>
+  </style>
+  <style name="TextoBold3" parent="Bold">
+    <item name="android:textSize">22dp</item>
+  </style>
+
+  <style name="Texto4">
+    <item name="android:textSize">20dp</item>
+  </style>
+  <style name="TextoBold4" parent="Bold">
+    <item name="android:textSize">20dp</item>
+  </style>
+
+  <style name="Texto5">
+    <item name="android:textSize">18dp</item>
+  </style>
+  <style name="TextoBold5" parent="Bold">
+    <item name="android:textSize">18dp</item>
+  </style>
+
+  <style name="Texto6">
+    <item name="android:textSize">16dp</item>
+  </style>
+  <style name="TextoBold6" parent="Bold">
+    <item name="android:textSize">16dp</item>
+  </style>
+
+  <style name="InputLayout">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:paddingLeft">10dp</item>
+    <item name="android:paddingRight">10dp</item>
+  </style>
+
+  <style name="TextField">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:padding">10dp</item>
+    <item name="android:singleLine">true</item>
+  </style>
+
+  <style name="MultilineTextField" parent="TextField">
+    <item name="android:layout_height">150dp</item>
+    <item name="android:singleLine">false</item>
+    <item name="android:inputType">textMultiLine</item>
+    <item name="android:gravity">start</item>
+  </style>
+
+  <style name="DateField" parent="TextField">
+    <item name="android:inputType">date</item>
+  </style>
+
+  <style name="PhoneField" parent="TextField">
+    <item name="android:inputType">phone</item>
+  </style>
+
+  <style name="NumberField" parent="TextField">
+    <item name="android:inputType">number</item>
+  </style>
+
+  <style name="MoneyField" parent="TextField">
+    <item name="android:inputType">numberDecimal</item>
+    <item name="android:digits">,.0123456789</item>
+  </style>
+  
 </resources>

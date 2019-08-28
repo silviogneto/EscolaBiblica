@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using EscolaBiblica.API.DAL.Modelos;
+using Microsoft.EntityFrameworkCore;
 
 namespace EscolaBiblica.API.DAL.Repositorios
 {
@@ -10,6 +8,13 @@ namespace EscolaBiblica.API.DAL.Repositorios
     {
         public ProfessorRepositorio(EscolaBiblicaContext context) : base(context)
         {
+        }
+
+        public Professor ObterPorUsuario(int usuario)
+        {
+            return DbSet.Include(x => x.Congregacao)
+                        .ThenInclude(x => x.Setor)
+                        .FirstOrDefault(x => x.UsuarioId == usuario);
         }
     }
 }

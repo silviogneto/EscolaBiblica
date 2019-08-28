@@ -5,11 +5,16 @@ namespace EscolaBiblica.App.Biblioteca.Web
 {
     public class WebRequestConfig
     {
-        private Dictionary<string, JToken> _parametros = new Dictionary<string, JToken>();
+        private readonly Dictionary<string, JToken> _parametros = new Dictionary<string, JToken>();
 
         public Dictionary<string, object> Headers { get; } = new Dictionary<string, object>();
-        public string Servidor { get; set; }
+        public string Servidor { get; }
         public string EndPoint { get; set; }
+
+        public WebRequestConfig(string servidor)
+        {
+            Servidor = servidor;
+        }
 
         public void AddParam(string chave, JToken valor)
         {

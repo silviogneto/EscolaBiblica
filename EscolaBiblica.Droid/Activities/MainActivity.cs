@@ -1,7 +1,10 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.Design.Widget;
+using Android.Views;
+using EscolaBiblica.Droid.Fragments;
 
 namespace EscolaBiblica.Droid.Activities
 {
@@ -22,12 +25,33 @@ namespace EscolaBiblica.Droid.Activities
             DisplayView(bottomNavView.SelectedItemId);
         }
 
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.main_menu, menu);
+            return base.OnCreateOptionsMenu(menu);
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if (item.ItemId == Resource.Id.MainMenuLogout)
+            {
+                App.Instancia.Logout();
+
+                var tela = new Intent(Application.Context, typeof(LoginActivity));
+                tela.SetFlags(ActivityFlags.ClearTask | ActivityFlags.NewTask);
+                StartActivity(tela);
+                Finish();
+            }
+
+            return base.OnOptionsItemSelected(item);
+        }
+
         private void DisplayView(int itemId)
         {
             switch (itemId)
             {
                 case Resource.Id.MenuChamada:
-                    //StartFragment(ChamadaListFragment.NewInstance(), Resource.String.chamadas);
+                    StartFragment(ChamadaListFragment.Instancia(), Resource.String.chamadas);
                     break;
             }
         }

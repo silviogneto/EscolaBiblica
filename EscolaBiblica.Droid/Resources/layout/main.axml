@@ -18,6 +18,8 @@
 		android:layout_height="?attr/actionBarSize"
 		app:elevation="20dp"
 		app:itemBackground="?attr/colorPrimary"
+		app:itemIconTint="@drawable/bottom_nav_colors"
+		app:itemTextColor="@drawable/bottom_nav_colors"
 		app:menu="@menu/bottom_menu"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"

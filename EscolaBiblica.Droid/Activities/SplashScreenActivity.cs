@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -22,7 +23,9 @@ namespace EscolaBiblica.Droid.Activities
             var worker = new Task(StartApp);
             worker.ContinueWith(task =>
             {
-                StartActivity(new Intent(Application.Context, typeof(LoginActivity)));
+                var tela = !string.IsNullOrWhiteSpace(App.Instancia.Token) && DateTime.Now < App.Instancia.TokenExpiracao ? typeof(MainActivity) : typeof(LoginActivity);
+
+                StartActivity(new Intent(Application.Context, tela));
                 Finish();
             }, TaskScheduler.FromCurrentSynchronizationContext());
             worker.Start();

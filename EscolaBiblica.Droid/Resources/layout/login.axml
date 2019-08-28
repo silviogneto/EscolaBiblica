@@ -3,6 +3,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 	<LinearLayout
+        android:id="@+id/ContentLayout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
@@ -22,12 +23,11 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="@string/cpf"/>
+			android:text="@string/usuario"/>
 		<EditText
-			android:id="@+id/TextCpf"
+			android:id="@+id/TextUsuario"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:inputType="number"/>
+			android:layout_height="wrap_content"/>
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"

@@ -1,10 +1,28 @@
 <resources>
   <string name="app_name">Escola Bíblica</string>
+
+  <string name="erroRequisicao">Erro na requisição</string>
+  <string name="erroNaoAutorizado">Usuário e/ou Senha incorretos</string>
+
+  <string name="ok">Ok</string>
   
-  <!-- Tela login -->
-  <string name="cpf">CPF</string>
+  <!-- Login -->
+  <string name="usuario">Usuário</string>
   <string name="senha">Senha</string>
   <string name="login">Login</string>
+
+  <!-- Main -->
+  <string name="logout">Logout</string>
+
+  <!-- Chamada -->
+  <string name="diaAnterior">Dia Anterior</string>
+  <string name="proximoDia">Próximo Dia</string>
+  <string name="mes">Mês</string>
+  <string name="visitantes">Visitantes</string>
+  <string name="biblias">Biblias</string>
+  <string name="revistas">Revistas</string>
+  <string name="oferta">Oferta</string>
+  <string name="alunosMatriculados">Alunos Matriculados</string>
   
   <!-- Bottom menu -->
   <string name="chamadas">Chamadas</string>
