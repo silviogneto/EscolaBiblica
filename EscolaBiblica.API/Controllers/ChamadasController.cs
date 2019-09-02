@@ -18,6 +18,36 @@ namespace EscolaBiblica.API.Controllers
         }
 
         [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [HttpGet("{data}")]
+        public IActionResult Get(int classe, DateTime data)
+        {
+            var retorno = new ChamadaDTO();
+
+            var chamada = UnidadeTrabalho.ChamadaRepositorio.ObterPorClasseEData(classe, data);
+            if (chamada != null)
+            {
+                retorno.Biblias = chamada.Biblias;
+                retorno.Revistas = chamada.Revistas;
+                retorno.Visitantes = chamada.Visitantes;
+                retorno.Oferta = chamada.Oferta;
+
+                if (chamada.Presencas != null && chamada.Presencas.Any())
+                    retorno.Presencas = chamada.Presencas.Select(x => new AlunoDTO { Id = x.IdAluno, Nome = x.NomeAluno });
+            }
+
+            // Busca alunos matriculados
+            var matriculas = UnidadeTrabalho.MatriculaRepositorio.Todos(x => x.ClasseId == classe &&
+                                                                             x.DataMatricula <= data.Date &&
+                                                                             (x.DataTerminoMatricula == null || x.DataTerminoMatricula > data.Date), include: x => x.Aluno);
+            if (matriculas.Any())
+            {
+                retorno.Matriculados = matriculas.Select(x => new AlunoDTO { Id = x.Aluno.Id, Nome = x.Aluno.Nome });
+            }
+
+            return Ok(retorno);
+        }
+
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
         [HttpPost("{data}")]
         public IActionResult Post(int classe, DateTime data, [FromBody] ChamadaDTO chamadaDto)
         {
@@ -32,24 +62,26 @@ namespace EscolaBiblica.API.Controllers
 
             return TratarRetornoTransacao(unidadeTrabalho =>
             {
-                if (chamada.Biblias != chamadaDto.Biblias)
-                    chamada.Biblias = chamadaDto.Biblias;
+                if (chamadaDto.Visitantes.HasValue && chamada.Visitantes != chamadaDto.Visitantes)
+                    chamada.Visitantes = chamadaDto.Visitantes.Value;
 
-                if (chamada.Revistas != chamadaDto.Revistas)
-                    chamada.Revistas = chamadaDto.Revistas;
+                if (chamadaDto.Biblias.HasValue && chamada.Biblias != chamadaDto.Biblias)
+                    chamada.Biblias = chamadaDto.Biblias.Value;
 
-                if (chamada.Visitantes != chamadaDto.Visitantes)
-                    chamada.Visitantes = chamadaDto.Visitantes;
+                if (chamadaDto.Revistas.HasValue && chamada.Revistas != chamadaDto.Revistas)
+                    chamada.Revistas = chamadaDto.Revistas.Value;
 
-                if (chamada.Oferta != chamadaDto.Oferta)
-                    chamada.Oferta = chamadaDto.Oferta;
+                if (chamadaDto.Oferta.HasValue && chamada.Oferta != chamadaDto.Oferta)
+                    chamada.Oferta = chamadaDto.Oferta.Value;
 
                 if (chamadaDto.Presencas != null)
+                {
                     chamada.Presencas = new List<Presenca>(chamadaDto.Presencas.Select(x => new Presenca
                     {
-                        IdAluno = x.IdAluno,
-                        NomeAluno = x.NomeAluno
+                        IdAluno = x.Id,
+                        NomeAluno = x.Nome
                     }));
+                }
 
                 unidadeTrabalho.ChamadaRepositorio.Alterar(chamada);
             });

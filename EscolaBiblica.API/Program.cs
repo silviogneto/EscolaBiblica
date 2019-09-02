@@ -16,21 +16,19 @@ namespace EscolaBiblica.API
         {
             var webHostBuilder = WebHost.CreateDefaultBuilder(args);
 
-#if DEBUG
             var configuration = new ConfigurationBuilder()
                 .AddCommandLine(args)
                 .Build();
 
             var hostUrl = configuration["hosturl"];
             if (string.IsNullOrWhiteSpace(hostUrl))
-                hostUrl = "http://0.0.0.0:6000";
+                hostUrl = "http://0.0.0.0:5000";
 
             webHostBuilder.UseKestrel()
                           .UseUrls(hostUrl)
                           .UseContentRoot(Directory.GetCurrentDirectory())
                           .UseIISIntegration()
                           .UseConfiguration(configuration);
-#endif
 
 #if CONFIG_IIS
             // Utilizado para subir no IIS

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EscolaBiblica.API.DAL.Modelos;
+using Microsoft.EntityFrameworkCore;
 
 namespace EscolaBiblica.API.DAL.Repositorios
 {
@@ -15,7 +16,7 @@ namespace EscolaBiblica.API.DAL.Repositorios
 
         public Chamada ObterPorClasseEData(int classe, DateTime data)
         {
-            return DbSet.SingleOrDefault(x => x.ClasseId == classe && x.Data == data.Date);
+            return DbSet.Include(x => x.Presencas).SingleOrDefault(x => x.ClasseId == classe && x.Data == data.Date);
         }
     }
 }

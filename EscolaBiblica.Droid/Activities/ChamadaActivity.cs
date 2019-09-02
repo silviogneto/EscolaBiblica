@@ -11,6 +11,8 @@ namespace EscolaBiblica.Droid.Activities
         WindowSoftInputMode = SoftInput.StateHidden | SoftInput.AdjustResize)]
     public class ChamadaActivity : BaseActivity
     {
-        public override BaseFragment InitFragment() => new ChamadaFragment(Intent.GetIntExtra("Id", 0));
+        public override BaseFragment InitFragment() => new ChamadaFragment(Intent.GetIntExtra("Setor", 0),
+                                                                           Intent.GetIntExtra("Congregacao", 0),
+                                                                           Intent.GetIntExtra("Id", 0));
     }
 }

@@ -18,18 +18,14 @@ namespace EscolaBiblica.Droid.Fragments
 
         public override int LayoutResource => Resource.Layout.list;
 
-        public static ChamadaListFragment Instancia() => new ChamadaListFragment();
-
-        private ChamadaListFragment()
-        {
-        }
-
         public override void CreateView(View view)
         {
             _adapter = new RecyclerAdapter<ClasseDTO, ClasseViewHolder>(Resource.Layout.classeItem);
             _adapter.ItemClick += (sender, item, position) =>
             {
                 var intent = new Intent(Activity, typeof(ChamadaActivity));
+                intent.PutExtra("Setor", item.Setor);
+                intent.PutExtra("Congregacao", item.Congregacao);
                 intent.PutExtra("Id", item.Id);
                 StartActivity(intent);
             };
@@ -53,12 +49,8 @@ namespace EscolaBiblica.Droid.Fragments
 
             ThreadPool.QueueUserWorkItem(o =>
             {
-                new ClasseRepositorio
-                {
-                    Token = App.Instancia.Token,
-                    Setores = App.Instancia.Setores
-                }
-                .ObterClasses()
+                new ClasseRepositorio(App.Instancia.Token)
+                .ObterClasses(App.Instancia.Setores)
                 .ContinueWith(task =>
                 {
                     try

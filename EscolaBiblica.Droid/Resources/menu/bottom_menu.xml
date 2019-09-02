@@ -1,6 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item android:id="@+id/MenuNoticias"
+        android:title="@string/noticias"
+        android:icon="@drawable/ic_web"/>
+
+  <item android:id="@+id/MenuRelatorio"
+        android:title="@string/relatorio"
+        android:icon="@drawable/ic_assessment"/>
+
   <item android:id="@+id/MenuChamada"
         android:title="@string/chamadas"
         android:icon="@drawable/ic_check_box"/>
+
+  <item android:id="@+id/MenuPerfil"
+        android:title="@string/perfil"
+        android:icon="@drawable/ic_person"/>
+
 </menu>

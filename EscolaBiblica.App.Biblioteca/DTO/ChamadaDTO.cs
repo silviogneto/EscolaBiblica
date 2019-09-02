@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EscolaBiblica.API.DTO
+namespace EscolaBiblica.App.Biblioteca.DTO
 {
     public class ChamadaDTO
     {

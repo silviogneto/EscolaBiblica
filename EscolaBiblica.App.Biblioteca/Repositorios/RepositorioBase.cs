@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EscolaBiblica.App.Biblioteca.DTO;
-using EscolaBiblica.App.Biblioteca.Web;
+﻿using EscolaBiblica.App.Biblioteca.Web;
 
 namespace EscolaBiblica.App.Biblioteca.Repositorios
 {
     public abstract class RepositorioBase
     {
-        public string Token { get; set; }
-        public IEnumerable<SetorDTO> Setores { get; set; }
+        public string Token { get; }
+
+        public RepositorioBase(string token)
+        {
+            Token = token;
+        }
 
         public WebRequestConfig CriarRequestConfig()
         {

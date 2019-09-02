@@ -51,6 +51,7 @@ namespace EscolaBiblica.API.Controllers
             {
                 Id = usuario.Id,
                 Login = dto.Login,
+                Nome = usuario.Nome,
                 Token = tokenHandler.WriteToken(token),
                 Expires = expires,
                 Perfil = usuario.Perfil

@@ -109,5 +109,19 @@ namespace EscolaBiblica.API.Controllers
                 });
             });
         }
+
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [HttpGet("Aniversariantes/Mes")]
+        public IActionResult AniversariantesMes(int congregacao)
+        {
+            return AniversariantesMes(congregacao, DateTime.Now.Month);
+        }
+
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [HttpGet("Aniversariantes/Mes/{mes}")]
+        public IActionResult AniversariantesMes(int congregacao, int mes)
+        {
+            return Ok(UnidadeTrabalho.AlunoRepositorio.TodosPorCongregacao(congregacao).Where(x => x.DataNascimento.Month == mes));
+        }
     }
 }

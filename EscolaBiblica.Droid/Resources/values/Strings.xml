@@ -14,6 +14,8 @@
   <!-- Main -->
   <string name="logout">Logout</string>
 
+  <string name="aniversariantesMes">Aniversariantes do Mês</string>
+  
   <!-- Chamada -->
   <string name="diaAnterior">Dia Anterior</string>
   <string name="proximoDia">Próximo Dia</string>
@@ -23,7 +25,16 @@
   <string name="revistas">Revistas</string>
   <string name="oferta">Oferta</string>
   <string name="alunosMatriculados">Alunos Matriculados</string>
+
+  <!-- Perfil -->
+  <string name="nome">Nome</string>
   
   <!-- Bottom menu -->
+  <string name="noticias">Notícias</string>
+  <string name="relatorio">Relatórios</string>
   <string name="chamadas">Chamadas</string>
+  <string name="perfil">Perfil</string>
+
+  <!-- Editar menu -->
+  <string name="salvar">Salvar</string>
 </resources>

@@ -16,9 +16,21 @@ namespace EscolaBiblica.Droid
         private ISharedPreferences _sharedPreferences;
 
         public int UsuarioId => _sharedPreferences.GetInt("UsuarioId", 0);
-        public string Token => _sharedPreferences.GetString("Token", "");
-        public DateTime TokenExpiracao => Convert.ToDateTime(_sharedPreferences.GetString("TokenExpiracao", ""));
-        public string Perfil => _sharedPreferences.GetString("Perfil", "");
+        public string Usuario => _sharedPreferences.GetString("Login", string.Empty);
+        public string Nome => _sharedPreferences.GetString("Nome", string.Empty);
+        public string Token => _sharedPreferences.GetString("Token", string.Empty);
+        public DateTime? TokenExpiracao
+        {
+            get
+            {
+                var data = _sharedPreferences.GetString("TokenExpiracao", string.Empty);
+                if (string.IsNullOrWhiteSpace(data))
+                    return null;
+
+                return Convert.ToDateTime(data);
+            }
+        }
+        public string Perfil => _sharedPreferences.GetString("Perfil", string.Empty);
         public IEnumerable<SetorDTO> Setores
         {
             get
@@ -36,16 +48,18 @@ namespace EscolaBiblica.Droid
             _sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
         }
 
-        public void Login(int usuarioId, string token, DateTime tokenExpiracao, string perfil, IEnumerable<SetorDTO> setores)
+        public void Login(UsuarioDTO usuarioDTO)
         {
             var preferencesEditor = _sharedPreferences.Edit();
-            preferencesEditor.PutInt("UsuarioId", usuarioId);
-            preferencesEditor.PutString("Token", token);
-            preferencesEditor.PutString("TokenExpiracao", tokenExpiracao.ToString());
-            preferencesEditor.PutString("Perfil", perfil);
+            preferencesEditor.PutInt("UsuarioId", usuarioDTO.Id);
+            preferencesEditor.PutString("Login", usuarioDTO.Login);
+            preferencesEditor.PutString("Nome", usuarioDTO.Nome);
+            preferencesEditor.PutString("Token", usuarioDTO.Token);
+            preferencesEditor.PutString("TokenExpiracao", usuarioDTO.Expires.ToString());
+            preferencesEditor.PutString("Perfil", usuarioDTO.Perfil);
 
-            if (setores != null)
-                preferencesEditor.PutString("Setores", JsonConvert.SerializeObject(setores));
+            if (usuarioDTO.Setores != null)
+                preferencesEditor.PutString("Setores", JsonConvert.SerializeObject(usuarioDTO.Setores));
 
             preferencesEditor.Commit();
         }
@@ -54,8 +68,12 @@ namespace EscolaBiblica.Droid
         {
             var preferencesEditor = _sharedPreferences.Edit();
             preferencesEditor.Remove("UsuarioId");
+            preferencesEditor.Remove("Login");
+            preferencesEditor.Remove("Nome");
             preferencesEditor.Remove("Token");
             preferencesEditor.Remove("TokenExpiracao");
+            preferencesEditor.Remove("Perfil");
+            preferencesEditor.Remove("Setores");
             preferencesEditor.Commit();
         }
     }

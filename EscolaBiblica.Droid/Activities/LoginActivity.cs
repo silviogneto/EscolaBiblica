@@ -6,7 +6,6 @@ using Android.OS;
 using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
-using EscolaBiblica.App.Biblioteca.DTO;
 using EscolaBiblica.App.Biblioteca.Repositorios;
 
 namespace EscolaBiblica.Droid.Activities
@@ -37,7 +36,7 @@ namespace EscolaBiblica.Droid.Activities
                 try
                 {
                     var result = await new AutenticacaoRepositorio().Autenticar(_textUsuario.Text, _textSenha.Text);
-                    GravarDadosUsuario(result);
+                    App.Instancia.Login(result);
 
                     StartActivity(new Intent(this, typeof(MainActivity)));
                     Finish();
@@ -63,11 +62,6 @@ namespace EscolaBiblica.Droid.Activities
                             .Show();
                 }
             };
-        }
-
-        private void GravarDadosUsuario(UsuarioDTO usuarioDto)
-        {
-            App.Instancia.Login(usuarioDto.Id, usuarioDto.Token, usuarioDto.Expires, usuarioDto.Perfil, usuarioDto.Setores);
         }
 
         private void EnableCampos(bool enabled)

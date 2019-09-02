@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/PanelDados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/usuario"
+                style="@style/TextoBold6"/>
+            <TextView
+                android:id="@+id/TextUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="silviogneto"
+                style="@style/Texto5"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/nome"
+                style="@style/TextoBold6"/>
+            <TextView
+                android:id="@+id/TextNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Silvio G Neto"
+                style="@style/Texto5"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/BtnAlterarSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/PanelDados"
+            android:layout_marginBottom="10dp"
+            android:text="Alterar Senha"/>
+    </RelativeLayout>
+
+</ScrollView>
