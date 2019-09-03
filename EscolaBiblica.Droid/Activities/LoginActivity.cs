@@ -12,7 +12,7 @@ namespace EscolaBiblica.Droid.Activities
 {
     [Activity(
         NoHistory = true,
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+        ScreenOrientation = ScreenOrientation.Portrait,
         WindowSoftInputMode = SoftInput.StateHidden | SoftInput.AdjustResize)]
     public class LoginActivity : BaseActivity
     {
@@ -48,7 +48,7 @@ namespace EscolaBiblica.Droid.Activities
                     if (ex.Response is HttpWebResponse response &&
                         response.StatusCode == HttpStatusCode.Unauthorized)
                     {
-                        Snackbar.Make(FindViewById<LinearLayout>(Resource.Id.ContentLayout), Resource.String.erroNaoAutorizado, Snackbar.LengthIndefinite)
+                        Snackbar.Make(ContentLayout, Resource.String.erroNaoAutorizado, Snackbar.LengthIndefinite)
                                 .SetAction(Resource.String.ok, v => { })
                                 .Show();
                     }
@@ -57,7 +57,7 @@ namespace EscolaBiblica.Droid.Activities
                 {
                     EnableCampos(true);
 
-                    Snackbar.Make(FindViewById<LinearLayout>(Resource.Id.ContentLayout), Resource.String.erroRequisicao, Snackbar.LengthIndefinite)
+                    Snackbar.Make(ContentLayout, Resource.String.erroRequisicao, Snackbar.LengthIndefinite)
                             .SetAction(Resource.String.ok, v => { })
                             .Show();
                 }

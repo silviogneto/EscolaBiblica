@@ -11,7 +11,7 @@ namespace EscolaBiblica.Droid.Activities
         NoHistory = true,
         MainLauncher = true,
         Theme = "@style/AppTheme.SplashScreen",
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+        ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashScreenActivity : BaseActivity
     {
         public override int LayoutResource => 0;

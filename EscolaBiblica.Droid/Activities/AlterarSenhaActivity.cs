@@ -6,7 +6,7 @@ using EscolaBiblica.Droid.Fragments;
 namespace EscolaBiblica.Droid.Activities
 {
     [Activity(
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
+        ScreenOrientation = ScreenOrientation.Portrait,
         WindowSoftInputMode = SoftInput.StateHidden | SoftInput.AdjustResize)]
     public class AlterarSenhaActivity : BaseActivity
     {

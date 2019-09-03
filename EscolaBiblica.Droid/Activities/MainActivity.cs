@@ -10,7 +10,7 @@ using EscolaBiblica.Droid.Fragments;
 namespace EscolaBiblica.Droid.Activities
 {
     [Activity(
-        ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+        ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : BaseActivity
     {
         public override int LayoutResource => Resource.Layout.main;
@@ -69,10 +69,12 @@ namespace EscolaBiblica.Droid.Activities
             }
         }
 
-        private void StartFragment(Android.Support.V4.App.Fragment fragment, int resourceIdSubtitle = 0)
+        private void StartFragment(BaseFragment fragment, int resourceIdSubtitle = 0)
         {
             if (SupportFragmentManager != null && fragment != null)
             {
+                fragment.ContentLayout = ContentLayout;
+
                 SupportFragmentManager.BeginTransaction()
                                       .SetTransition(Android.Support.V4.App.FragmentTransaction.TransitFragmentFade)
                                       .Replace(Resource.Id.ContentBody, fragment)

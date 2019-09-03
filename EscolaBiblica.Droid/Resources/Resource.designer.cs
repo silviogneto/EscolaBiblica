@@ -2591,8 +2591,8 @@ namespace EscolaBiblica.Droid
 			// aapt resource value: 0x7f0800d5
 			public const int BtnAlterarSenha = 2131230933;
 			
-			// aapt resource value: 0x7f0800bd
-			public const int BtnLogin = 2131230909;
+			// aapt resource value: 0x7f0800be
+			public const int BtnLogin = 2131230910;
 			
 			// aapt resource value: 0x7f08009e
 			public const int BtnNextDay = 2131230878;
@@ -2605,9 +2605,6 @@ namespace EscolaBiblica.Droid
 			
 			// aapt resource value: 0x7f08009b
 			public const int Check = 2131230875;
-			
-			// aapt resource value: 0x7f0800be
-			public const int Content = 2131230910;
 			
 			// aapt resource value: 0x7f0800ac
 			public const int ContentBody = 2131230892;
@@ -2623,6 +2620,9 @@ namespace EscolaBiblica.Droid
 			
 			// aapt resource value: 0x7f0800c0
 			public const int LabelAniversariantes = 2131230912;
+			
+			// aapt resource value: 0x7f0800bc
+			public const int LabelVersao = 2131230908;
 			
 			// aapt resource value: 0x7f0800a3
 			public const int LayoutTextBiblias = 2131230883;
@@ -2696,8 +2696,8 @@ namespace EscolaBiblica.Droid
 			// aapt resource value: 0x7f080099
 			public const int TextSenha = 2131230873;
 			
-			// aapt resource value: 0x7f0800bc
-			public const int TextUsuario = 2131230908;
+			// aapt resource value: 0x7f0800bd
+			public const int TextUsuario = 2131230909;
 			
 			// aapt resource value: 0x7f0800a2
 			public const int TextVisitantes = 2131230882;

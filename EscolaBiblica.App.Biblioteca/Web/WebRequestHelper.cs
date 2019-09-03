@@ -112,7 +112,7 @@ namespace EscolaBiblica.App.Biblioteca.Web
         {
             var request = WebRequest.Create(new Uri(_config.ToString()));
             request.ContentType = "application/json";
-            request.Timeout = 60000; // 1 min
+            request.Timeout = 30000; // 30 s
 
             foreach (var header in _config.Headers)
                 request.Headers[header.Key] = header.Value.ToString();

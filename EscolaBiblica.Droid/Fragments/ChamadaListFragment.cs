@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using Android.Content;
+using Android.Support.Design.Widget;
 using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -55,6 +57,14 @@ namespace EscolaBiblica.Droid.Fragments
                 {
                     try
                     {
+                        if (task.Exception != null)
+                        {
+                            Activity.RunOnUiThread(() => Snackbar.Make(ContentLayout, task.Exception.Message, Snackbar.LengthIndefinite)
+                                                                 .SetAction(Resource.String.ok, v => { })
+                                                                 .Show());
+                            return;
+                        }
+
                         if (task.Result != null && task.Result.Any())
                         {
                             Activity.RunOnUiThread(() => _adapter.LoadList(task.Result.ToList()));
