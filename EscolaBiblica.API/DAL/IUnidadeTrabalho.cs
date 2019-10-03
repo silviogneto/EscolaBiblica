@@ -9,7 +9,9 @@ namespace EscolaBiblica.API.DAL
         IChamadaRepositorio ChamadaRepositorio { get; }
         IClasseRepositorio ClasseRepositorio { get; }
         ICongregacaoRepositorio CongregacaoRepositorio { get; }
+        ICoordenadorRepositorio CoordenadorRepositorio { get; }
         IMatriculaRepositorio MatriculaRepositorio { get; }
+        IProfessorClasseRepositorio ProfessorClasseRepositorio { get; }
         IProfessorRepositorio ProfessorRepositorio { get; }
         ISetorRepositorio SetorRepositorio { get; }
         IUsuarioRepositorio UsuarioRepositorio { get; }

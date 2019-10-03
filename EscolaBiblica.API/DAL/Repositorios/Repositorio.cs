@@ -16,8 +16,6 @@ namespace EscolaBiblica.API.DAL.Repositorios
             DbSet = context.Set<TModelo>();
         }
 
-        public virtual IEnumerable<TModelo> Todos() => DbSet;
-
         public virtual IEnumerable<TModelo> Todos(Expression<Func<TModelo, bool>> where = null, Func<IQueryable<TModelo>, IOrderedQueryable<TModelo>> orderBy = null, Expression<Func<TModelo, object>> include = null)
         {
             var dbSet = DbSet.AsQueryable();
@@ -45,6 +43,8 @@ namespace EscolaBiblica.API.DAL.Repositorios
         public virtual void Alterar(IEnumerable<TModelo> entidades) => DbSet.UpdateRange(entidades);
 
         public virtual void Excluir(TModelo entidade) => DbSet.Remove(entidade);
+
+        public virtual void Excluir(IEnumerable<TModelo> entidades) => DbSet.RemoveRange(entidades);
 
         public void Excluir(TPK id)
         {

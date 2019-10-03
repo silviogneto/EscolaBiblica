@@ -22,7 +22,7 @@ namespace EscolaBiblica.API.DAL.Modelos
         public TipoEndereco TipoEndereco { get; set; }
 
         public int AlunoId { get; set; }
-        public virtual Aluno Aluno { get; set; }
+        public Aluno Aluno { get; set; }
 
         public override string ToString() => $"{DescEndereco} - {Numero}, {Complemento}. Bairro: {Bairro} - {Cidade}. {Estado}";
     }

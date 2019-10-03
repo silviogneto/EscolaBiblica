@@ -233,6 +233,19 @@ namespace EscolaBiblica.API.Migrations
                     b.ToTable("Presenca");
                 });
 
+            modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.ProfessorClasse", b =>
+                {
+                    b.Property<int>("ProfessorId");
+
+                    b.Property<int>("ClasseId");
+
+                    b.HasKey("ProfessorId", "ClasseId");
+
+                    b.HasIndex("ClasseId");
+
+                    b.ToTable("ProfessorClasse");
+                });
+
             modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Setor", b =>
                 {
                     b.Property<int>("Numero");
@@ -425,6 +438,15 @@ namespace EscolaBiblica.API.Migrations
                     b.HasDiscriminator().HasValue("Professor");
                 });
 
+            modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Coordenador", b =>
+                {
+                    b.HasBaseType("EscolaBiblica.API.DAL.Modelos.Professor");
+
+                    b.ToTable("Coordenador");
+
+                    b.HasDiscriminator().HasValue("Coordenador");
+                });
+
             modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Aluno", b =>
                 {
                     b.HasOne("EscolaBiblica.API.DAL.Modelos.Congregacao", "Congregacao")
@@ -484,6 +506,19 @@ namespace EscolaBiblica.API.Migrations
                         .WithMany("Presencas")
                         .HasForeignKey("ChamadaId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.ProfessorClasse", b =>
+                {
+                    b.HasOne("EscolaBiblica.API.DAL.Modelos.Classe", "Classe")
+                        .WithMany("Professores")
+                        .HasForeignKey("ClasseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("EscolaBiblica.API.DAL.Modelos.Professor", "Professor")
+                        .WithMany("Classes")
+                        .HasForeignKey("ProfessorId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("EscolaBiblica.API.DAL.Modelos.Professor", b =>

@@ -15,9 +15,9 @@ namespace EscolaBiblica.API.DAL.Modelos
         public string Telefone { get; set; }
 
         public int CongregacaoId { get; set; }
-        public virtual Congregacao Congregacao { get; set; }
+        public Congregacao Congregacao { get; set; }
 
-        public IEnumerable<Endereco> Enderecos { get; set; }
+        public ICollection<Endereco> Enderecos { get; set; }
 
         public override string ToString() => Nome;
     }

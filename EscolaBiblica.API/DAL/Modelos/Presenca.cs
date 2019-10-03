@@ -10,6 +10,6 @@ namespace EscolaBiblica.API.DAL.Modelos
         public string NomeAluno { get; set; }
 
         public int ChamadaId { get; set; }
-        public virtual Chamada Chamada { get; set; }
+        public Chamada Chamada { get; set; }
     }
 }

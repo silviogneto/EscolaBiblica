@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using EscolaBiblica.API.Configuracoes;
 using EscolaBiblica.API.DAL;
+using EscolaBiblica.API.DAL.Modelos;
 using EscolaBiblica.API.DTO;
 using EscolaBiblica.API.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -57,28 +59,37 @@ namespace EscolaBiblica.API.Controllers
                 Perfil = usuario.Perfil
             };
 
-            if (usuario.Perfil == Perfil.Professor)
+            IEnumerable<Classe> classes = null;
+
+            switch (usuario.Perfil)
             {
-                var professor = UnidadeTrabalho.ProfessorRepositorio.ObterPorUsuario(usuario.Id);
-                if (professor != null)
-                {
-                    resultado.Setores = new List<SetorDTO>
+                case Perfil.Admin:
+                    classes = UnidadeTrabalho.ClasseRepositorio.Todos(include: x => x.Congregacao);
+                    break;
+                case Perfil.Coordenador:
+                    var coordenador = UnidadeTrabalho.CoordenadorRepositorio.ObterPorUsuario(usuario.Id);
+                    if (coordenador != null)
                     {
-                        new SetorDTO
-                        {
-                            Numero = professor.Congregacao.Setor.Numero,
-                            Nome = professor.Congregacao.Setor.Nome,
-                            Congregacoes = new List<CongregacaoDTO>
-                            {
-                                new CongregacaoDTO
-                                {
-                                    Id = professor.Congregacao.Id,
-                                    Nome = professor.Congregacao.Nome
-                                }
-                            }
-                        }
-                    };
-                }
+                        classes = UnidadeTrabalho.ClasseRepositorio.TodosPorCongregacao(coordenador.CongregacaoId);
+                    }
+                    break;
+                case Perfil.Professor:
+                    var professor = UnidadeTrabalho.ProfessorRepositorio.ObterPorUsuario(usuario.Id);
+                    if (professor != null)
+                    {
+                        classes = UnidadeTrabalho.ProfessorClasseRepositorio.ObterClassesPorProfessorId(professor.Id);
+                    }
+                    break;
+            }
+
+            if (classes?.Any() == true)
+            {
+                resultado.Classes = classes.Select(x => new ClasseDTO
+                {
+                    Classe = x.Id,
+                    Congregacao = x.CongregacaoId,
+                    Setor = x.Congregacao.SetorNumero
+                });
             }
 
             return Ok(resultado);

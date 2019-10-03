@@ -8,16 +8,18 @@ namespace EscolaBiblica.API.DAL
 {
     public class EscolaBiblicaContext : DbContext
     {
-        public virtual DbSet<Aluno> Alunos { get; set; }
-        public virtual DbSet<Chamada> Chamadas { get; set; }
-        public virtual DbSet<Classe> Classes { get; set; }
-        public virtual DbSet<Congregacao> Congregacoes { get; set; }
-        public virtual DbSet<Endereco> Enderecos { get; set; }
-        public virtual DbSet<Matricula> Matriculas { get; set; }
-        public virtual DbSet<Presenca> Presencas { get; set; }
-        public virtual DbSet<Professor> Professores { get; set; }
-        public virtual DbSet<Setor> Setores { get; set; }
-        public virtual DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Aluno> Alunos { get; set; }
+        public DbSet<Chamada> Chamadas { get; set; }
+        public DbSet<Classe> Classes { get; set; }
+        public DbSet<Congregacao> Congregacoes { get; set; }
+        public DbSet<Coordenador> Coordenadores { get; set; }
+        public DbSet<Endereco> Enderecos { get; set; }
+        public DbSet<Matricula> Matriculas { get; set; }
+        public DbSet<Presenca> Presencas { get; set; }
+        public DbSet<Professor> Professores { get; set; }
+        public DbSet<ProfessorClasse> ProfessorClasses { get; set; }
+        public DbSet<Setor> Setores { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         public EscolaBiblicaContext(DbContextOptions<EscolaBiblicaContext> options)
             : base(options)
@@ -31,6 +33,16 @@ namespace EscolaBiblica.API.DAL
             modelBuilder.Entity<Usuario>().HasData(
                 new Usuario { Id = 1, Nome = "Silvio Neto", Login = "silviogneto", Senha = Hash.GerarHash("senha"), Perfil = Perfil.Admin, Ativo = true }
             );
+
+            modelBuilder.Entity<ProfessorClasse>().HasKey(x => new { x.ProfessorId, x.ClasseId });
+            modelBuilder.Entity<ProfessorClasse>().HasOne(x => x.Professor)
+                                                  .WithMany(x => x.Classes)
+                                                  .HasForeignKey(x => x.ProfessorId)
+                                                  .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ProfessorClasse>().HasOne(x => x.Classe)
+                                                  .WithMany(x => x.Professores)
+                                                  .HasForeignKey(x => x.ClasseId)
+                                                  .OnDelete(DeleteBehavior.Restrict);
 
             #region Setores && Congregacoes
 

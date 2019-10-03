@@ -188,6 +188,30 @@ namespace EscolaBiblica.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProfessorClasse",
+                columns: table => new
+                {
+                    ProfessorId = table.Column<int>(nullable: false),
+                    ClasseId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProfessorClasse", x => new { x.ProfessorId, x.ClasseId });
+                    table.ForeignKey(
+                        name: "FK_ProfessorClasse_Classe_ClasseId",
+                        column: x => x.ClasseId,
+                        principalTable: "Classe",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ProfessorClasse_Aluno_ProfessorId",
+                        column: x => x.ProfessorId,
+                        principalTable: "Aluno",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Presenca",
                 columns: table => new
                 {
@@ -309,6 +333,11 @@ namespace EscolaBiblica.API.Migrations
                 name: "IX_Presenca_ChamadaId",
                 table: "Presenca",
                 column: "ChamadaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProfessorClasse_ClasseId",
+                table: "ProfessorClasse",
+                column: "ClasseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -323,16 +352,19 @@ namespace EscolaBiblica.API.Migrations
                 name: "Presenca");
 
             migrationBuilder.DropTable(
-                name: "Aluno");
+                name: "ProfessorClasse");
 
             migrationBuilder.DropTable(
                 name: "Chamada");
 
             migrationBuilder.DropTable(
-                name: "Usuario");
+                name: "Aluno");
 
             migrationBuilder.DropTable(
                 name: "Classe");
+
+            migrationBuilder.DropTable(
+                name: "Usuario");
 
             migrationBuilder.DropTable(
                 name: "Congregacao");

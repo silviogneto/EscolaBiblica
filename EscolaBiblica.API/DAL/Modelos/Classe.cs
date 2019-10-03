@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace EscolaBiblica.API.DAL.Modelos
 {
@@ -10,7 +11,9 @@ namespace EscolaBiblica.API.DAL.Modelos
 
         [Required]
         public int CongregacaoId { get; set; }
-        public virtual Congregacao Congregacao { get; set; }
+        public Congregacao Congregacao { get; set; }
+
+        public ICollection<ProfessorClasse> Professores { get; set; }
 
         public override string ToString() => Nome;
     }

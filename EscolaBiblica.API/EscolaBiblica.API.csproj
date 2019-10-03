@@ -15,6 +15,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Script Dados\**" />
+    <Content Remove="Script Dados\**" />
+    <EmbeddedResource Remove="Script Dados\**" />
+    <None Remove="Script Dados\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

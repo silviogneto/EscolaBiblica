@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EscolaBiblica.API.DAL.Repositorios
 {
-    public class ProfessorRepositorio : Repositorio<Professor>, IProfessorRepositorio
+    public class CoordenadorRepositorio : Repositorio<Coordenador>, ICoordenadorRepositorio
     {
-        public ProfessorRepositorio(EscolaBiblicaContext context) : base(context)
+        public CoordenadorRepositorio(EscolaBiblicaContext context) : base(context)
         {
         }
 
-        public Professor ObterPorUsuario(int usuario)
+        public Coordenador ObterPorUsuario(int usuario)
         {
             return DbSet.Include(x => x.Congregacao)
                         .ThenInclude(x => x.Setor)

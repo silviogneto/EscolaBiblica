@@ -14,10 +14,10 @@ namespace EscolaBiblica.API.DAL.Modelos
 
         [Required]
         public int ClasseId { get; set; }
-        public virtual Classe Classe { get; set; }
+        public Classe Classe { get; set; }
 
         [Required]
         public int AlunoId { get; set; }
-        public virtual Aluno Aluno { get; set; }
+        public Aluno Aluno { get; set; }
     }
 }

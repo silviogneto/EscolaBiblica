@@ -16,9 +16,9 @@ namespace EscolaBiblica.API.DAL.Modelos
         public int Revistas { get; set; }
         public decimal Oferta { get; set; }
 
-        public virtual IEnumerable<Presenca> Presencas { get; set; }
+        public ICollection<Presenca> Presencas { get; set; }
 
         public int ClasseId { get; set; }
-        public virtual Classe Classe { get; set; }
+        public Classe Classe { get; set; }
     }
 }
