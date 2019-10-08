@@ -18,6 +18,7 @@ namespace EscolaBiblica.Droid.Fragments
         private readonly int _setor;
         private readonly int _congregacao;
         private readonly int _classeId;
+        private readonly string _classeNome;
         private DateTime _dataAtual;
 
         private TextView _textMes;
@@ -29,16 +30,22 @@ namespace EscolaBiblica.Droid.Fragments
 
         public override int LayoutResource => Resource.Layout.chamada;
 
-        public ChamadaFragment(int setor, int congregacao, int classeId)
+        public ChamadaFragment(int setor, int congregacao, int classeId, string classeNome)
         {
             _setor = setor;
             _congregacao = congregacao;
             _classeId = classeId;
+            _classeNome = classeNome;
             _dataAtual = DateTime.Now.Date;
         }
 
         public override void CreateView(View view)
         {
+            if (!string.IsNullOrWhiteSpace(_classeNome) && BaseActivity != null)
+            {
+                BaseActivity.SupportActionBar.Subtitle = $"Classe {_classeNome}";
+            }
+
             _textMes = view.FindViewById<TextView>(Resource.Id.TextMes);
             _textVisitantes = view.FindViewById<EditText>(Resource.Id.TextVisitantes);
             _textBiblias = view.FindViewById<EditText>(Resource.Id.TextBiblias);
@@ -53,9 +60,7 @@ namespace EscolaBiblica.Droid.Fragments
 
             var recyclerView = view.FindViewById<RecyclerView>(Resource.Id.RecyclerView);
             recyclerView.SetAdapter(_adapter);
-
-            var layoutManager = new LinearLayoutManager(Activity, LinearLayoutManager.Vertical, false);
-            recyclerView.SetLayoutManager(layoutManager);
+            recyclerView.SetLayoutManager(new LinearLayoutManager(Activity, LinearLayoutManager.Vertical, false));
 
             _dataAtual = ProximaData(_dataAtual);
 
@@ -110,7 +115,10 @@ namespace EscolaBiblica.Droid.Fragments
 
             _dataAtual = data.Date;
 
-            _adapter.ClearAll();
+            _adapter.Clear();
+
+            var dialog = LoadingDialog();
+            dialog.Show();
 
             ThreadPool.QueueUserWorkItem(o =>
             {
@@ -118,28 +126,35 @@ namespace EscolaBiblica.Droid.Fragments
                 .ObterChamada(_setor, _congregacao, _classeId, data)
                 .ContinueWith(task =>
                 {
-                    if (task.Result != null)
+                    try
                     {
-                        Activity.RunOnUiThread(() =>
+                        if (task.Result != null)
                         {
-                            if (task.Result.Visitantes.HasValue)
-                                _textVisitantes.Text = task.Result.Visitantes.Value.ToString();
+                            Activity.RunOnUiThread(() =>
+                            {
+                                if (task.Result.Visitantes.HasValue)
+                                    _textVisitantes.Text = task.Result.Visitantes.Value.ToString();
 
-                            if (task.Result.Biblias.HasValue)
-                                _textBiblias.Text = task.Result.Biblias.Value.ToString();
+                                if (task.Result.Biblias.HasValue)
+                                    _textBiblias.Text = task.Result.Biblias.Value.ToString();
 
-                            if (task.Result.Revistas.HasValue)
-                                _textRevistas.Text = task.Result.Revistas.Value.ToString();
+                                if (task.Result.Revistas.HasValue)
+                                    _textRevistas.Text = task.Result.Revistas.Value.ToString();
 
-                            if (task.Result.Oferta.HasValue)
-                                _textOferta.Text = task.Result.Oferta.Value.ToString("F2");
+                                if (task.Result.Oferta.HasValue)
+                                    _textOferta.Text = task.Result.Oferta.Value.ToString("F2");
 
-                            if (task.Result.Matriculados != null)
-                                _adapter.LoadList(task.Result.Matriculados.ToList());
+                                if (task.Result.Matriculados != null)
+                                    _adapter.LoadList(task.Result.Matriculados.OrderBy(x => x.Nome).ToList());
 
-                            if (task.Result.Presencas != null && task.Result.Presencas.Any())
-                                _adapter.SetSelected(task.Result.Presencas.ToList());
-                        });
+                                if (task.Result.Presencas != null && task.Result.Presencas.Any())
+                                    _adapter.SetSelected(task.Result.Presencas.ToList());
+                            });
+                        }
+                    }
+                    finally
+                    {
+                        Activity.RunOnUiThread(dialog.Cancel);
                     }
                 });
             });

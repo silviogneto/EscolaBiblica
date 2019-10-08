@@ -31,15 +31,15 @@ namespace EscolaBiblica.Droid
             }
         }
         public string Perfil => _sharedPreferences.GetString("Perfil", string.Empty);
-        public IEnumerable<SetorDTO> Setores
+        public IEnumerable<ClasseDTO> Classes
         {
             get
             {
-                var setoresStr = _sharedPreferences.GetString("Setores", null);
-                if (setoresStr == null)
+                var classes = _sharedPreferences.GetString("Classes", null);
+                if (classes == null)
                     return null;
 
-                return JsonConvert.DeserializeObject<IEnumerable<SetorDTO>>(setoresStr);
+                return JsonConvert.DeserializeObject<IEnumerable<ClasseDTO>>(classes);
             }
         }
 
@@ -48,7 +48,7 @@ namespace EscolaBiblica.Droid
             _sharedPreferences = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
         }
 
-        public void Login(UsuarioDTO usuarioDTO)
+        public void Login(AutenticacaoDTO usuarioDTO)
         {
             var preferencesEditor = _sharedPreferences.Edit();
             preferencesEditor.PutInt("UsuarioId", usuarioDTO.Id);
@@ -58,8 +58,8 @@ namespace EscolaBiblica.Droid
             preferencesEditor.PutString("TokenExpiracao", usuarioDTO.Expires.ToString());
             preferencesEditor.PutString("Perfil", usuarioDTO.Perfil);
 
-            if (usuarioDTO.Setores != null)
-                preferencesEditor.PutString("Setores", JsonConvert.SerializeObject(usuarioDTO.Setores));
+            if (usuarioDTO.Classes != null)
+                preferencesEditor.PutString("Classes", JsonConvert.SerializeObject(usuarioDTO.Classes));
 
             preferencesEditor.Commit();
         }
@@ -73,7 +73,7 @@ namespace EscolaBiblica.Droid
             preferencesEditor.Remove("Token");
             preferencesEditor.Remove("TokenExpiracao");
             preferencesEditor.Remove("Perfil");
-            preferencesEditor.Remove("Setores");
+            preferencesEditor.Remove("Classes");
             preferencesEditor.Commit();
         }
     }

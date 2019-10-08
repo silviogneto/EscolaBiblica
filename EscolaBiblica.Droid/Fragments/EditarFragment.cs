@@ -34,12 +34,7 @@ namespace EscolaBiblica.Droid.Fragments
                 {
                     CloseSoftInput();
 
-                    var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity)
-                        .SetView(Resource.Layout.loading)
-                        .SetCancelable(false)
-                        .Create();
-
-                    dialog.Window.SetBackgroundDrawableResource(Android.Resource.Color.Transparent);
+                    var dialog = LoadingDialog();
                     dialog.Show();
 
                     ThreadPool.QueueUserWorkItem(o =>
@@ -61,5 +56,16 @@ namespace EscolaBiblica.Droid.Fragments
         }
 
         public virtual bool ValidarCampos() => true;
+
+        public Android.Support.V7.App.AlertDialog LoadingDialog()
+        {
+            var dialog = new Android.Support.V7.App.AlertDialog.Builder(Activity)
+                .SetView(Resource.Layout.loading)
+                .SetCancelable(false)
+                .Create();
+
+            dialog.Window.SetBackgroundDrawableResource(Android.Resource.Color.Transparent);
+            return dialog;
+        }
     }
 }

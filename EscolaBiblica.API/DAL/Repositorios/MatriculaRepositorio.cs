@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using EscolaBiblica.API.DAL.Modelos;
 
 namespace EscolaBiblica.API.DAL.Repositorios
@@ -10,6 +9,13 @@ namespace EscolaBiblica.API.DAL.Repositorios
     {
         public MatriculaRepositorio(EscolaBiblicaContext context) : base(context)
         {
+        }
+
+        public IEnumerable<Matricula> TodosPorClassesESemana(IEnumerable<int> idsClasses, DateTime inicio, DateTime fim)
+        {
+            return DbSet.Where(x => idsClasses.Contains(x.ClasseId) &&
+                                    x.DataMatricula >= inicio &&
+                                    (x.DataTerminoMatricula == null || x.DataTerminoMatricula <= fim));
         }
     }
 }

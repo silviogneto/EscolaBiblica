@@ -78,7 +78,7 @@ namespace EscolaBiblica.API.Controllers
             return TratarRetornoTransacao(unidadeTrabalho => unidadeTrabalho.ClasseRepositorio.Excluir(id));
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpGet("{id}/Alunos")]
         public IActionResult ObterAlunosMatriculados(int id)
         {
@@ -87,7 +87,7 @@ namespace EscolaBiblica.API.Controllers
             return Ok(matriculas.Select(x => x.Aluno));
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpPost("{id}/Alunos")]
         public IActionResult MatricularAlunos(int id, [FromBody] IEnumerable<MatriculaDTO> alunos)
         {
@@ -116,7 +116,7 @@ namespace EscolaBiblica.API.Controllers
             });
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpDelete("{id}/Alunos")]
         public IActionResult DesmatricularAlunos(int id, [FromBody] IEnumerable<MatriculaDTO> alunos)
         {
@@ -131,6 +131,44 @@ namespace EscolaBiblica.API.Controllers
                     matricula.DataTerminoMatricula = dateNow;
 
                 unidadeTrabalho.MatriculaRepositorio.Alterar(matriculas);
+            });
+        }
+
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [HttpGet]
+        [Route("~/api/Professores/{usuarioId}/[controller]")]
+        public IActionResult ObterClassesProfessor(int usuarioId)
+        {
+            var professor = UnidadeTrabalho.ProfessorRepositorio.ObterPorUsuario(usuarioId);
+            if (professor == null)
+                return NotFound();
+
+            return Ok(ModeloParaDTO(UnidadeTrabalho.ProfessorClasseRepositorio.ObterClassesPorProfessorId(professor.Id)));
+        }
+
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador)]
+        [HttpGet]
+        [Route("~/api/Coordenadores/{usuarioId}/[controller]")]
+        public IActionResult ObterClassesCoordenador(int usuarioId)
+        {
+            var coordenador = UnidadeTrabalho.CoordenadorRepositorio.ObterPorUsuario(usuarioId);
+            if (coordenador == null)
+                return NotFound();
+
+            return Ok(ModeloParaDTO(UnidadeTrabalho.ClasseRepositorio.TodosPorCongregacao(coordenador.CongregacaoId)));
+        }
+
+        private IEnumerable<ClasseDTO> ModeloParaDTO(IEnumerable<Classe> classes)
+        {
+            return classes.Select(x => new ClasseDTO
+            {
+                Id = x.Id,
+                Nome = x.Nome,
+                Descricao = x.Descricao,
+                Congregacao = x.Congregacao.Id,
+                CongregacaoNome = x.Congregacao.Nome,
+                Setor = x.Congregacao.Setor.Numero
+                //,SetorNome = x.Congregacao.Setor.Nome
             });
         }
     }

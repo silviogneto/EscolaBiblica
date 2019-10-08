@@ -1,9 +1,11 @@
-﻿using Android.App;
+﻿using System.Linq;
+using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Support.Design.Widget;
 using Android.Views;
+using EscolaBiblica.App.Biblioteca.Helpers;
 using EscolaBiblica.Droid.Extensions;
 using EscolaBiblica.Droid.Fragments;
 
@@ -23,7 +25,7 @@ namespace EscolaBiblica.Droid.Activities
             bottomNavView.SetShiftMode(false, false);
             bottomNavView.NavigationItemSelected += (sender, e) => DisplayView(e.Item.ItemId);
 
-            if (App.Instancia.Perfil == "PROF")
+            if (App.Instancia.Perfil == Perfil.Professor)
             {
                 bottomNavView.Menu.RemoveItem(Resource.Id.MenuRelatorio);
             }
@@ -58,13 +60,16 @@ namespace EscolaBiblica.Droid.Activities
             switch (itemId)
             {
                 case Resource.Id.MenuNoticias:
-                    StartFragment(fragment: new NoticiaFragment());
+                    StartFragment(new NoticiaFragment());
+                    break;
+                case Resource.Id.MenuRelatorio:
+                    StartFragment(new RelatorioFragment());
                     break;
                 case Resource.Id.MenuChamada:
-                    StartFragment(fragment: new ChamadaListFragment());
+                    StartFragment(new ChamadaListFragment());
                     break;
                 case Resource.Id.MenuPerfil:
-                    StartFragment(fragment: new PerfilFragment());
+                    StartFragment(new PerfilFragment());
                     break;
             }
         }

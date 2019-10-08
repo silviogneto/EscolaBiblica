@@ -18,5 +18,15 @@ namespace EscolaBiblica.API.DAL.Repositorios
         {
             return DbSet.Include(x => x.Presencas).SingleOrDefault(x => x.ClasseId == classe && x.Data == data.Date);
         }
+
+        public IEnumerable<Chamada> TodosPorSetorCongregacaoAnoMes(int setor, int congregacao, int ano, int mes)
+        {
+            return DbSet.Include(x => x.Presencas)
+                        .Include(x => x.Classe).ThenInclude(x => x.Congregacao)
+                        .Where(x => x.Classe.Congregacao.SetorNumero == setor &&
+                                    x.Classe.CongregacaoId == congregacao &&
+                                    x.Data.Year == ano &&
+                                    x.Data.Month == mes);
+        }
     }
 }

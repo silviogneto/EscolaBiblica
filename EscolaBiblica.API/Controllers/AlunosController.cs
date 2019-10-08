@@ -27,7 +27,7 @@ namespace EscolaBiblica.API.Controllers
             return TratarRetorno(UnidadeTrabalho.AlunoRepositorio.ObterPorCongregacaoEId(congregacao, id));
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpPost]
         public IActionResult Post(int congregacao, [FromBody] Aluno aluno)
         {
@@ -50,7 +50,7 @@ namespace EscolaBiblica.API.Controllers
             });
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpPut("{id}")]
         public IActionResult Put(int congregacao, int id, [FromBody] Aluno aluno)
         {
@@ -78,14 +78,14 @@ namespace EscolaBiblica.API.Controllers
             });
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             return TratarRetornoTransacao(unidadeTrabalho => unidadeTrabalho.AlunoRepositorio.Excluir(id));
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpPost("{id}/Classes/{classeId}")]
         public IActionResult MatricuarAluno(int id, int classeId)
         {
@@ -110,14 +110,14 @@ namespace EscolaBiblica.API.Controllers
             });
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpGet("Aniversariantes/Mes")]
         public IActionResult AniversariantesMes(int congregacao)
         {
             return AniversariantesMes(congregacao, DateTime.Now.Month);
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpGet("Aniversariantes/Mes/{mes}")]
         public IActionResult AniversariantesMes(int congregacao, int mes)
         {

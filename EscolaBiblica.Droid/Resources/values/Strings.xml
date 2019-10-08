@@ -5,7 +5,10 @@
   <string name="erroNaoAutorizado">Usuário e/ou Senha incorretos</string>
 
   <string name="ok">Ok</string>
-  
+
+  <string name="setor">Setor</string>
+  <string name="congregacao">Congregação</string>
+
   <!-- Login -->
   <string name="usuario">Usuário</string>
   <string name="senha">Senha</string>
@@ -14,6 +17,7 @@
   <!-- Main -->
   <string name="logout">Logout</string>
 
+  <!-- Noticias -->
   <string name="aniversariantesMes">Aniversariantes do Mês</string>
   
   <!-- Chamada -->

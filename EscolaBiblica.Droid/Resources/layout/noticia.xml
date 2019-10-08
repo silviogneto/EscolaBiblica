@@ -9,31 +9,27 @@
         android:id="@+id/ContentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp">
-		<android.support.v7.widget.CardView
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardUseCompatPadding="true"
-            app:cardElevation="5dp"
-            app:cardCornerRadius="5dp">
-            <RelativeLayout
+            android:background="@android:color/white"
+            android:padding="15dp">
+            <TextView
+                android:id="@+id/LabelAniversariantes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="15dp">
-				<TextView
-                    android:id="@+id/LabelAniversariantes"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/aniversariantesMes"
-					style="@style/TextoBold5"/>
-				<EscolaBiblica.Droid.Widget.AutoHeightListView
-					android:id="@+id/ListAniversariantes"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-                    android:layout_below="@id/LabelAniversariantes"
-                    android:layout_marginTop="10dp"/>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
+                android:text="@string/aniversariantesMes"
+                style="@style/TextoBold5"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/LabelAniversariantes"
+                android:overScrollMode="never"
+                android:scrollbars="vertical" />
+        </RelativeLayout>
     </RelativeLayout>
 </ScrollView>

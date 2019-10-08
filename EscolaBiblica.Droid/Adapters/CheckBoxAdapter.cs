@@ -64,7 +64,7 @@ namespace EscolaBiblica.Droid.Adapters
             NotifyDataSetChanged();
         }
 
-        public void ClearAll()
+        public override void Clear()
         {
             List?.Clear();
             ClearChecked();

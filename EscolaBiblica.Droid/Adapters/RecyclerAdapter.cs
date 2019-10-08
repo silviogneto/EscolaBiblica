@@ -1,15 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Support.V7.Widget;
 using Android.Views;
-using Android.Widget;
 using EscolaBiblica.Droid.ViewHolders;
 
 namespace EscolaBiblica.Droid.Adapters
@@ -58,11 +50,17 @@ namespace EscolaBiblica.Droid.Adapters
             return viewHolder;
         }
 
-        public void LoadList(List<TList> list)
+        public virtual void LoadList(List<TList> list)
         {
             List = new List<TList>();
             List.AddRange(list);
 
+            NotifyDataSetChanged();
+        }
+
+        public virtual void Clear()
+        {
+            List?.Clear();
             NotifyDataSetChanged();
         }
     }

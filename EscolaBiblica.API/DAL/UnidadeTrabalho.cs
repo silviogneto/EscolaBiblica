@@ -24,6 +24,9 @@ namespace EscolaBiblica.API.DAL
         private ICoordenadorRepositorio _coordenadorRepositorio;
         public ICoordenadorRepositorio CoordenadorRepositorio => _coordenadorRepositorio ?? (_coordenadorRepositorio = new CoordenadorRepositorio(_context));
 
+        private ICoordenadorCongregacaoRepositorio _coordenadorCongregacaoRepositorio;
+        public ICoordenadorCongregacaoRepositorio CoordenadorCongregacaoRepositorio => _coordenadorCongregacaoRepositorio ?? (_coordenadorCongregacaoRepositorio = new CoordenadorCongregacaoRepositorio(_context));
+
         private IMatriculaRepositorio _matriculaRepositorio;
         public IMatriculaRepositorio MatriculaRepositorio => _matriculaRepositorio ?? (_matriculaRepositorio = new MatriculaRepositorio(_context));
 

@@ -13,6 +13,7 @@ namespace EscolaBiblica.API.DAL
         public DbSet<Classe> Classes { get; set; }
         public DbSet<Congregacao> Congregacoes { get; set; }
         public DbSet<Coordenador> Coordenadores { get; set; }
+        public DbSet<CoordenadorCongregacao> CoordenadorCongregacoes { get; set; }
         public DbSet<Endereco> Enderecos { get; set; }
         public DbSet<Matricula> Matriculas { get; set; }
         public DbSet<Presenca> Presencas { get; set; }
@@ -43,6 +44,16 @@ namespace EscolaBiblica.API.DAL
                                                   .WithMany(x => x.Professores)
                                                   .HasForeignKey(x => x.ClasseId)
                                                   .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CoordenadorCongregacao>().HasKey(x => new { x.CoordenadorId, x.CongregacaoId });
+            modelBuilder.Entity<CoordenadorCongregacao>().HasOne(x => x.Coordenador)
+                                                         .WithMany(x => x.Congregacoes)
+                                                         .HasForeignKey(x => x.CoordenadorId)
+                                                         .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<CoordenadorCongregacao>().HasOne(x => x.Congregacao)
+                                                         .WithMany(x => x.Coordenadores)
+                                                         .HasForeignKey(x => x.CongregacaoId)
+                                                         .OnDelete(DeleteBehavior.Restrict);
 
             #region Setores && Congregacoes
 

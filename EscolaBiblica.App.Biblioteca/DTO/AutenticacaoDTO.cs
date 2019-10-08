@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EscolaBiblica.App.Biblioteca.DTO
 {
-    public class UsuarioDTO
+    public class AutenticacaoDTO
     {
         public int Id { get; set; }
         public string Login { get; set; }
@@ -13,6 +13,6 @@ namespace EscolaBiblica.App.Biblioteca.DTO
         public DateTime Expires { get; set; }
         public string Perfil { get; set; }
 
-        public IEnumerable<SetorDTO> Setores { get; set; }
+        public IEnumerable<ClasseDTO> Classes { get; set; }
     }
 }

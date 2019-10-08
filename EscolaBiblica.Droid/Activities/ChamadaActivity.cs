@@ -13,6 +13,7 @@ namespace EscolaBiblica.Droid.Activities
     {
         public override BaseFragment InitFragment() => new ChamadaFragment(Intent.GetIntExtra("Setor", 0),
                                                                            Intent.GetIntExtra("Congregacao", 0),
-                                                                           Intent.GetIntExtra("Id", 0));
+                                                                           Intent.GetIntExtra("Id", 0),
+                                                                           Intent.GetStringExtra("Nome"));
     }
 }

@@ -17,7 +17,7 @@ namespace EscolaBiblica.API.Controllers
         {
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpGet("{data}")]
         public IActionResult Get(int classe, DateTime data)
         {
@@ -47,7 +47,7 @@ namespace EscolaBiblica.API.Controllers
             return Ok(retorno);
         }
 
-        [Authorize(Roles = Perfil.Admin + "," + Perfil.Professor)]
+        [Authorize(Roles = Perfil.Admin + "," + Perfil.Coordenador + "," + Perfil.Professor)]
         [HttpPost("{data}")]
         public IActionResult Post(int classe, DateTime data, [FromBody] ChamadaDTO chamadaDto)
         {

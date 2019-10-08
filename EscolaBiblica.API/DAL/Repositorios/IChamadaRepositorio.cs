@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EscolaBiblica.API.DAL.Modelos;
 
 namespace EscolaBiblica.API.DAL.Repositorios
@@ -10,5 +8,6 @@ namespace EscolaBiblica.API.DAL.Repositorios
     {
         IEnumerable<Chamada> TodosPorClasse(int classe);
         Chamada ObterPorClasseEData(int classe, DateTime data);
+        IEnumerable<Chamada> TodosPorSetorCongregacaoAnoMes(int setor, int congregacao, int ano, int mes);
     }
 }

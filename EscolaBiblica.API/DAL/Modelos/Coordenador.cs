@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace EscolaBiblica.API.DAL.Modelos
 {
     public class Coordenador : Professor
     {
+        public ICollection<CoordenadorCongregacao> Congregacoes { get; set; }
     }
 }

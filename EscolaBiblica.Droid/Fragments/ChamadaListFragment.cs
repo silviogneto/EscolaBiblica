@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using Android.Content;
 using Android.Support.Design.Widget;
@@ -29,6 +28,7 @@ namespace EscolaBiblica.Droid.Fragments
                 intent.PutExtra("Setor", item.Setor);
                 intent.PutExtra("Congregacao", item.Congregacao);
                 intent.PutExtra("Id", item.Id);
+                intent.PutExtra("Nome", item.Nome);
                 StartActivity(intent);
             };
 
@@ -52,7 +52,7 @@ namespace EscolaBiblica.Droid.Fragments
             ThreadPool.QueueUserWorkItem(o =>
             {
                 new ClasseRepositorio(App.Instancia.Token)
-                .ObterClasses(App.Instancia.Setores)
+                .ObterClasses(App.Instancia.UsuarioId)
                 .ContinueWith(task =>
                 {
                     try

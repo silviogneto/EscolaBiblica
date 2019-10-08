@@ -59,7 +59,7 @@ namespace EscolaBiblica.API.Controllers
                 Perfil = usuario.Perfil
             };
 
-            IEnumerable<Classe> classes = null;
+            IEnumerable<Classe> classes;
 
             switch (usuario.Perfil)
             {
@@ -68,31 +68,43 @@ namespace EscolaBiblica.API.Controllers
                     break;
                 case Perfil.Coordenador:
                     var coordenador = UnidadeTrabalho.CoordenadorRepositorio.ObterPorUsuario(usuario.Id);
-                    if (coordenador != null)
-                    {
-                        classes = UnidadeTrabalho.ClasseRepositorio.TodosPorCongregacao(coordenador.CongregacaoId);
-                    }
+                    if (coordenador == null)
+                        return NotFound();
+
+                    var congregacoes = UnidadeTrabalho.CoordenadorCongregacaoRepositorio.ObterCongregacoesPorCoordenadorId(coordenador.Id).ToList();
+                    if (!congregacoes.Any())
+                        return BadRequest(); // TODO: Criar objeto de erro para retornar
+
+                    classes = UnidadeTrabalho.ClasseRepositorio.TodosPorCongregacoes(congregacoes);
                     break;
                 case Perfil.Professor:
                     var professor = UnidadeTrabalho.ProfessorRepositorio.ObterPorUsuario(usuario.Id);
-                    if (professor != null)
-                    {
-                        classes = UnidadeTrabalho.ProfessorClasseRepositorio.ObterClassesPorProfessorId(professor.Id);
-                    }
+                    if (professor == null)
+                        return NotFound();
+
+                    classes = UnidadeTrabalho.ProfessorClasseRepositorio.ObterClassesPorProfessorId(professor.Id);
                     break;
+                default:
+                    return BadRequest(); // TODO: Criar objeto de erro para retornar
             }
 
-            if (classes?.Any() == true)
-            {
-                resultado.Classes = classes.Select(x => new ClasseDTO
-                {
-                    Classe = x.Id,
-                    Congregacao = x.CongregacaoId,
-                    Setor = x.Congregacao.SetorNumero
-                });
-            }
+            resultado.Classes = ModeloParaDTO(classes);
 
             return Ok(resultado);
+        }
+
+        private IEnumerable<ClasseDTO> ModeloParaDTO(IEnumerable<Classe> classes)
+        {
+            return classes.Select(x => new ClasseDTO
+            {
+                Id = x.Id,
+                Nome = x.Nome,
+                Descricao = x.Descricao,
+                Congregacao = x.Congregacao.Id,
+                CongregacaoNome = x.Congregacao.Nome,
+                Setor = x.Congregacao.Setor.Numero,
+                SetorNome = x.Congregacao.Setor.Nome
+            });
         }
     }
 }

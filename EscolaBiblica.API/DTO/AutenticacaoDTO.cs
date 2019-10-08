@@ -11,7 +11,6 @@ namespace EscolaBiblica.API.DTO
         public string Token { get; set; }
         public DateTime Expires { get; set; }
         public string Perfil { get; set; }
-
         public IEnumerable<ClasseDTO> Classes { get; set; }
     }
 }

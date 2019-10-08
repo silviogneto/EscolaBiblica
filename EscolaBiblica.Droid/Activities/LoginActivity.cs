@@ -36,6 +36,7 @@ namespace EscolaBiblica.Droid.Activities
                 try
                 {
                     var result = await new AutenticacaoRepositorio().Autenticar(_textUsuario.Text, _textSenha.Text);
+
                     App.Instancia.Login(result);
 
                     StartActivity(new Intent(this, typeof(MainActivity)));

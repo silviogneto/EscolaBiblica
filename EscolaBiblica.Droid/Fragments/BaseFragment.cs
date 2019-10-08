@@ -4,6 +4,7 @@ using Android.Support.V4.App;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using EscolaBiblica.Droid.Activities;
 
 namespace EscolaBiblica.Droid.Fragments
 {
@@ -14,6 +15,7 @@ namespace EscolaBiblica.Droid.Fragments
 
         public virtual int LayoutResource { get; }
         public RelativeLayout ContentLayout { get; set; }
+        public BaseActivity BaseActivity => Activity as BaseActivity;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

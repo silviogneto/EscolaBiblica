@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
+using Android.Support.V7.Widget;
 using Android.Views;
-using Android.Widget;
 using EscolaBiblica.App.Biblioteca.DTO;
 using EscolaBiblica.App.Biblioteca.Repositorios;
+using EscolaBiblica.Droid.Adapters;
+using EscolaBiblica.Droid.ViewHolders;
 
 namespace EscolaBiblica.Droid.Fragments
 {
     public class NoticiaFragment : BaseFragment
     {
-        private ListView _listAniversariantes;
+        private RecyclerAdapter<AlunoDTO, AniversarianteViewHolder> _adapterAniversariantes;
 
         public override int LayoutResource => Resource.Layout.noticia;
 
         public override void CreateView(View view)
         {
-            _listAniversariantes = view.FindViewById<ListView>(Resource.Id.ListAniversariantes);
+            _adapterAniversariantes = new RecyclerAdapter<AlunoDTO, AniversarianteViewHolder>(Resource.Layout.simple_list_item);
 
+            var recyclerView = view.FindViewById<RecyclerView>(Resource.Id.RecyclerView);
+            recyclerView.SetAdapter(_adapterAniversariantes);
+            recyclerView.SetLayoutManager(new LinearLayoutManager(Activity, LinearLayoutManager.Vertical, false));
         }
 
         public override void OnStart()
@@ -32,27 +30,19 @@ namespace EscolaBiblica.Droid.Fragments
             ThreadPool.QueueUserWorkItem(async o =>
             {
                 var aniversariantes = new List<AlunoDTO>();
-                var alunoRespositorio = new AlunoRepositorio(App.Instancia.Token);
-
-                foreach (var setor in App.Instancia.Setores)
+                var itens = await new AlunoRepositorio(App.Instancia.Token).ObterAniversariantes(App.Instancia.UsuarioId);
+                if (itens.Any())
                 {
-                    foreach (var congregacao in setor.Congregacoes)
-                    {
-                        var itens = await alunoRespositorio.ObterAniversariantes(setor.Numero, congregacao.Id);
-                        if (itens.Any())
-                        {
-                            aniversariantes.AddRange(itens);
-                        }
-                    }
+                    aniversariantes.AddRange(itens);
                 }
 
-                Activity.RunOnUiThread(() =>
+                if (aniversariantes.Any())
                 {
-                    _listAniversariantes.Adapter = new ArrayAdapter<string>(Activity, Android.Resource.Layout.SimpleListItem1, aniversariantes.OrderBy(x => x.DataNascimento)
-                                                                                                                                              .ThenBy(x => x.Nome)
-                                                                                                                                              .Select(x => $"{x.DataNascimento.ToString("dd/MM")} - {x.Nome}")
-                                                                                                                                              .ToArray());
-                });
+                    Activity.RunOnUiThread(() =>
+                    {
+                        _adapterAniversariantes.LoadList(aniversariantes.OrderBy(x => x.DataNascimento).ThenBy(x => x.Nome).ToList());
+                    });
+                }
             });
 
             base.OnStart();
