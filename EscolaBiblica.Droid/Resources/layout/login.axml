@@ -49,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:gravity="center"
         android:text="v 0.0.1"/>
 </RelativeLayout>

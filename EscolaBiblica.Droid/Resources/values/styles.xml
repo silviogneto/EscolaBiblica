@@ -16,7 +16,7 @@
 
   <style name="AppTheme.SplashScreen" parent="AppTheme.Base">
     <item name="android:windowFullscreen">true</item>
-    <!--<item name="android:windowBackground">@drawable/SplashBackground</item>-->
+    <item name="android:windowBackground">@drawable/splashscreen_background</item>
   </style>
 
   <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

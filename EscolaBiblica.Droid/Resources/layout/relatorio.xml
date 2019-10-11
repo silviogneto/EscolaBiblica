@@ -16,12 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginBottom="10dp"
+            android:backgroundTint="@android:color/white"
             android:visibility="gone"/>
         <Spinner
             android:id="@+id/ComboCongregacao"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/ComboSetor"/>
+            android:layout_below="@+id/ComboSetor"
+            android:backgroundTint="@android:color/white"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/PanelData"

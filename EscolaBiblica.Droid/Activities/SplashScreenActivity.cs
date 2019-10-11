@@ -10,6 +10,7 @@ namespace EscolaBiblica.Droid.Activities
     [Activity(
         NoHistory = true,
         MainLauncher = true,
+        Immersive = true,
         Theme = "@style/AppTheme.SplashScreen",
         ScreenOrientation = ScreenOrientation.Portrait)]
     public class SplashScreenActivity : BaseActivity

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
+using Android.Support.Design.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -53,7 +54,7 @@ namespace EscolaBiblica.Droid.Fragments
             _comboCongregacao.Post(async () =>
             {
                 var setores = await new ClasseRepositorio(App.Instancia.Token).ObterCongregacoes(App.Instancia.UsuarioId);
-                _adapterSetor = new ArrayAdapter<SetorDTO>(Activity, Android.Resource.Layout.SimpleSpinnerItem, setores.ToList());
+                _adapterSetor = new ArrayAdapter<SetorDTO>(Activity, Resource.Layout.combo_item, setores.ToList());
                 _comboSetor.Visibility = setores.Count() == 1 ? ViewStates.Gone : ViewStates.Visible;
                 _comboSetor.SetSelection(0);
 
@@ -65,14 +66,14 @@ namespace EscolaBiblica.Droid.Fragments
                     {
                         var setor = _adapterSetor.GetItem(e.Position);
 
-                        _adapterCongregacao = new ArrayAdapter<CongregacaoDTO>(Activity, Android.Resource.Layout.SimpleSpinnerItem, setor.Congregacoes.ToList());
+                        _adapterCongregacao = new ArrayAdapter<CongregacaoDTO>(Activity, Resource.Layout.combo_item, setor.Congregacoes.ToList());
                         _adapterCongregacao.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
                         _comboCongregacao.Adapter = _adapterCongregacao;
                     };
                 }
 
                 var congregacoes = setores.First().Congregacoes.ToList();
-                _adapterCongregacao = new ArrayAdapter<CongregacaoDTO>(Activity, Android.Resource.Layout.SimpleSpinnerItem, congregacoes);
+                _adapterCongregacao = new ArrayAdapter<CongregacaoDTO>(Activity, Resource.Layout.combo_item, congregacoes);
                 _comboCongregacao.SetSelection(0);
 
                 if (setores.Count() == 1 && congregacoes.Count == 1)
@@ -102,23 +103,50 @@ namespace EscolaBiblica.Droid.Fragments
             var setor = _adapterSetor.GetItem(_comboSetor.SelectedItemPosition).Numero;
             var congregacao = _adapterCongregacao.GetItem(_comboCongregacao.SelectedItemPosition).Id;
 
+            var dialog = LoadingDialog();
+            dialog.Show();
+
             ThreadPool.QueueUserWorkItem(o =>
             {
                 new RelatorioRepositorio(App.Instancia.Token)
                 .ObterRelatorio(setor, congregacao, _dataAtual.Year, _dataAtual.Month)
                 .ContinueWith(task =>
                 {
-                    if (task.Result != null)
+                    try
                     {
-                        Activity.RunOnUiThread(() =>
+                        if (task.Exception != null)
                         {
-                            _textSetor.Text = task.Result.Setor.ToString("00");
-                            _textCongregacao.Text = task.Result.NomeCongregacao;
-                            _textOfertaMes.Text = task.Result.OfertaMes.ToString("C2");
-                            _textOfertaDepartamento.Text = task.Result.OfertaDepartamento.ToString("C2");
+                            Activity.RunOnUiThread(() =>
+                            {
+                                _textSetor.Text = "-";
+                                _textCongregacao.Text = "-";
+                                _textOfertaMes.Text = "-";
+                                _textOfertaDepartamento.Text = "-";
 
-                            _adapter.LoadList(task.Result.Semanas.ToList());
-                        });
+                                Snackbar.Make(ContentLayout, task.Exception.Message, Snackbar.LengthIndefinite)
+                                                                     .SetAction(Resource.String.ok, v => { })
+                                                                     .Show();
+                            });
+
+                            return;
+                        }
+
+                        if (task.Result != null)
+                        {
+                            Activity.RunOnUiThread(() =>
+                            {
+                                _textSetor.Text = task.Result.Setor.ToString("00");
+                                _textCongregacao.Text = task.Result.NomeCongregacao;
+                                _textOfertaMes.Text = task.Result.OfertaMes.ToString("C2");
+                                _textOfertaDepartamento.Text = task.Result.OfertaDepartamento.ToString("C2");
+
+                                _adapter.LoadList(task.Result.Semanas.ToList());
+                            });
+                        }
+                    }
+                    finally
+                    {
+                        Activity.RunOnUiThread(dialog.Cancel);
                     }
                 });
             });
