@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="218">
+    <device id="retina4_0" orientation="portrait"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="217">
+            <objects>
+                <viewController id="218" sceneMemberID="viewController" storyboardIdentifier="LoginController" customClass="LoginController" useStoryboardIdentifierAsRestorationIdentifier="YES">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="231"/>
+                        <viewControllerLayoutGuide type="bottom" id="244"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="225">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Escola Bíblica" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="226" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="49" y="57" width="226" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="227" translatesAutoresizingMaskIntoConstraints="NO">
+                                <rect key="frame" x="26" y="106" width="268" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="220" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Usuário" clearButtonMode="whileEditing" misplaced="YES">
+                                <rect key="frame" x="49" y="166" width="226" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" textContentType="username" returnKeyType="next"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="222" translatesAutoresizingMaskIntoConstraints="NO" placeholder="Senha" clearButtonMode="whileEditing" misplaced="YES">
+                                <rect key="frame" x="49" y="211" width="226" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password" returnKeyType="go"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="224" translatesAutoresizingMaskIntoConstraints="NO" misplaced="YES">
+                                <rect key="frame" x="49" y="252" width="226" height="30"/>
+                                <state key="normal" title="Login"/>
+                                <connections/>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint id="228" firstItem="226" firstAttribute="leading" secondItem="225" secondAttribute="leadingMargin" constant="10"/>
+                            <constraint id="229" firstAttribute="trailingMargin" secondItem="226" secondAttribute="trailing" constant="10"/>
+                            <constraint id="230" firstItem="226" firstAttribute="top" secondItem="231" secondAttribute="bottom" constant="40"/>
+                            <constraint id="232" firstItem="227" firstAttribute="top" secondItem="226" secondAttribute="bottom" constant="10"/>
+                            <constraint id="233" firstItem="227" firstAttribute="leading" secondItem="225" secondAttribute="leadingMargin" constant="10"/>
+                            <constraint id="234" firstAttribute="trailingMargin" secondItem="227" secondAttribute="trailing" constant="10"/>
+                            <constraint id="235" firstItem="220" firstAttribute="top" secondItem="227" secondAttribute="bottom" constant="40"/>
+                            <constraint id="236" firstItem="220" firstAttribute="leading" secondItem="225" secondAttribute="leadingMargin" constant="10"/>
+                            <constraint id="237" firstAttribute="trailingMargin" secondItem="220" secondAttribute="trailing" constant="10"/>
+                            <constraint id="238" firstItem="222" firstAttribute="top" secondItem="220" secondAttribute="bottom" constant="10"/>
+                            <constraint id="239" firstItem="222" firstAttribute="leading" secondItem="225" secondAttribute="leadingMargin" constant="10"/>
+                            <constraint id="240" firstAttribute="trailingMargin" secondItem="222" secondAttribute="trailing" constant="10"/>
+                            <constraint id="241" firstItem="224" firstAttribute="top" secondItem="222" secondAttribute="bottom" constant="10"/>
+                            <constraint id="242" firstItem="224" firstAttribute="leading" secondItem="225" secondAttribute="leadingMargin" constant="10"/>
+                            <constraint id="243" firstAttribute="trailingMargin" secondItem="224" secondAttribute="trailing" constant="10"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="textUsurio" destination="220" id="219"/>
+                        <outlet property="textSenha" destination="222" id="221"/>
+                        <outlet property="btnLogin" destination="224" id="223"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="245" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1947" y="-736"/>
+        </scene>
+    </scenes>
+</document>

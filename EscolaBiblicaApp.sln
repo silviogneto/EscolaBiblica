@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscolaBiblica.API", "Escola
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscolaBiblica.Droid", "EscolaBiblica.Droid\EscolaBiblica.Droid.csproj", "{07A1ABC1-30CE-4822-8A67-03EA1DD8E6E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscolaBiblica.iOS", "EscolaBiblica.iOS\EscolaBiblica.iOS.csproj", "{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{92C31A76-3E77-4000-A700-BF45FCF83A0D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MigrationTool", "MigrationTool\MigrationTool.csproj", "{80926978-A10B-410C-ADC0-DD25020458D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscolaBiblica.App.Biblioteca", "EscolaBiblica.App.Biblioteca\EscolaBiblica.App.Biblioteca.csproj", "{04C45C54-444F-4075-99F5-AF3AC9FA9746}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscolaBiblica.iOS", "EscolaBiblica.iOS\EscolaBiblica.iOS.csproj", "{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,16 +55,6 @@ Global
 		{07A1ABC1-30CE-4822-8A67-03EA1DD8E6E2}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{07A1ABC1-30CE-4822-8A67-03EA1DD8E6E2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{07A1ABC1-30CE-4822-8A67-03EA1DD8E6E2}.Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Debug|Any CPU.ActiveCfg = Debug|iPhone
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Debug|iPhone.ActiveCfg = Debug|iPhone
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Debug|iPhone.Build.0 = Debug|iPhone
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Release|Any CPU.ActiveCfg = Release|iPhone
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Release|iPhone.ActiveCfg = Release|iPhone
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Release|iPhone.Build.0 = Release|iPhone
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
-		{80A96B52-6758-4BDB-B0B4-CEA4CA155C60}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{80926978-A10B-410C-ADC0-DD25020458D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{80926978-A10B-410C-ADC0-DD25020458D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80926978-A10B-410C-ADC0-DD25020458D8}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -89,6 +79,18 @@ Global
 		{04C45C54-444F-4075-99F5-AF3AC9FA9746}.Release|iPhone.Build.0 = Release|Any CPU
 		{04C45C54-444F-4075-99F5-AF3AC9FA9746}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{04C45C54-444F-4075-99F5-AF3AC9FA9746}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Debug|Any CPU.ActiveCfg = Debug|iPhoneSimulator
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Debug|Any CPU.Build.0 = Debug|iPhoneSimulator
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Debug|iPhone.Build.0 = Debug|iPhone
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Release|iPhone.ActiveCfg = Release|iPhone
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Release|iPhone.Build.0 = Release|iPhone
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{A22BEA0A-ACD1-41AA-8CF1-98B8B15A74D0}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
